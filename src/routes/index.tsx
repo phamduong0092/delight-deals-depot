@@ -50,6 +50,7 @@ const products: Product[] = [
     tag: "Ảnh Lifestyle",
     desc: "Ảnh lifestyle selfie phòng gym với áo KOL AI Go Global — hoàn hảo cho affiliate, ads và bán hàng social.",
     image: kolGym.url,
+    video: kolGymVideo.url,
   },
 ];
 

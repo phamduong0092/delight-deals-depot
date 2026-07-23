@@ -33,6 +33,7 @@ type Product = {
   tag: string;
   desc: string;
   image: string;
+  video?: string;
 };
 
 const products: Product[] = [

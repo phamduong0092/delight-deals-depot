@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import kolGraduation from "@/assets/kol-graduation.asset.json";
 import kolGym from "@/assets/kol-gym.asset.json";
+import kolGymVideo from "@/assets/kol-gym-video.mp4.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({

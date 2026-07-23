@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import kolGraduation from "@/assets/kol-graduation.asset.json";
 import kolGym from "@/assets/kol-gym.asset.json";
+import kolGymVideo from "@/assets/kol-gym-video.mp4.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -32,6 +33,7 @@ type Product = {
   tag: string;
   desc: string;
   image: string;
+  video?: string;
 };
 
 const products: Product[] = [
@@ -48,6 +50,7 @@ const products: Product[] = [
     tag: "Ảnh Lifestyle",
     desc: "Ảnh lifestyle selfie phòng gym với áo KOL AI Go Global — hoàn hảo cho affiliate, ads và bán hàng social.",
     image: kolGym.url,
+    video: kolGymVideo.url,
   },
 ];
 
@@ -118,12 +121,24 @@ function Landing() {
                 className="group overflow-hidden rounded-3xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:shadow-brand"
               >
                 <div className="relative aspect-[4/5] overflow-hidden bg-muted">
-                  <img
-                    src={p.image}
-                    alt={p.title}
-                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                    loading="lazy"
-                  />
+                  {p.video ? (
+                    <video
+                      src={p.video}
+                      poster={p.image}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <img
+                      src={p.image}
+                      alt={p.title}
+                      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  )}
                   <span className="absolute left-4 top-4 rounded-full bg-background/90 px-3 py-1 text-xs font-medium backdrop-blur">
                     {p.tag}
                   </span>

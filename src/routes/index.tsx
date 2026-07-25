@@ -7,16 +7,16 @@ import kolGymVideo from "@/assets/kol-gym-video.mp4.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "KOL AI Store — Gian hàng ảnh bán hàng chỉ $2" },
+      { title: "KOL AI Skill World — Sàn kỹ năng bán hàng đẳng cấp $2" },
       {
         name: "description",
         content:
-          "Chợ ảnh KOL AI Go Global — 3 gian hàng Poster, Lifestyle, Ads. Mỗi sản phẩm chỉ $2. Tải về ngay dùng cho affiliate & KOL.",
+          "Skill World by KOL AI — Sàn giao dịch kỹ năng bán hàng chuyên nghiệp. 3 sảnh Skill: Thương Hiệu, Hình Ảnh Cá Nhân, Chuyển Đổi. Mỗi Skill Pack chỉ $2.",
       },
-      { property: "og:title", content: "KOL AI Store — Chợ ảnh bán hàng $2" },
+      { property: "og:title", content: "KOL AI Skill World — Sàn Skill bán hàng $2" },
       {
         property: "og:description",
-        content: "3 gian hàng ảnh KOL AI Go Global. $2 mỗi sản phẩm. Tải về ngay.",
+        content: "Sàn Skill bán hàng chuyên nghiệp. 3 sảnh Skill đẳng cấp. $2 mỗi Skill Pack.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: kolGraduation.url },
@@ -46,46 +46,46 @@ type Category = {
 const categories: Category[] = [
   {
     id: "poster",
-    title: "Poster Sự Kiện KOL AI",
-    subtitle: "Ảnh sự kiện sang trọng, dùng ngay cho fanpage & ads",
+    title: "Sảnh I · Skill Thương Hiệu Cá Nhân",
+    subtitle: "Bộ kỹ năng xây dựng hình ảnh KOL đẳng cấp — từ định vị đến sân khấu",
     products: [
       {
         id: "graduation",
-        title: "Lễ Tốt Nghiệp",
-        tag: "Best seller",
+        title: "Skill · Sân Khấu Vinh Danh",
+        tag: "Signature",
         image: kolGraduation.url,
       },
-      { id: "launch", title: "Poster Ra Mắt", tag: "Mới", emoji: "🎉" },
-      { id: "honor", title: "Poster Vinh Danh", tag: "Hot", emoji: "🏆" },
-      { id: "workshop", title: "Poster Workshop", tag: "Chuyên nghiệp", emoji: "🎤" },
+      { id: "launch", title: "Skill · Ra Mắt Thương Hiệu", tag: "Premium", emoji: "🎉" },
+      { id: "honor", title: "Skill · Định Vị Chuyên Gia", tag: "Advanced", emoji: "🏆" },
+      { id: "workshop", title: "Skill · Diễn Thuyết Workshop", tag: "Master", emoji: "🎤" },
     ],
   },
   {
     id: "lifestyle",
-    title: "Lifestyle & Gym",
-    subtitle: "Ảnh & video selfie chân thực cho content cá nhân",
+    title: "Sảnh II · Skill Hình Ảnh Cá Nhân",
+    subtitle: "Kỹ năng dựng chân dung đời thực — bán hàng bằng sự tin cậy",
     products: [
       {
         id: "gym",
-        title: "Gym Selfie Video",
-        tag: "Video",
+        title: "Skill · Selfie Chuyển Động",
+        tag: "Video Pack",
         image: kolGym.url,
         video: kolGymVideo.url,
       },
-      { id: "outfit", title: "Gym Outfit", tag: "Trendy", emoji: "💪" },
-      { id: "street", title: "Street Style", tag: "Casual", emoji: "🕶️" },
-      { id: "studio", title: "Studio Portrait", tag: "Cao cấp", emoji: "📸" },
+      { id: "outfit", title: "Skill · Phối Đồ Bán Hàng", tag: "Style", emoji: "💪" },
+      { id: "street", title: "Skill · Street Storytelling", tag: "Story", emoji: "🕶️" },
+      { id: "studio", title: "Skill · Chân Dung Cao Cấp", tag: "Luxury", emoji: "📸" },
     ],
   },
   {
     id: "ads",
-    title: "Ads & Affiliate Pack",
-    subtitle: "Bộ hình ads đa nền tảng, sẵn kích thước chuẩn",
+    title: "Sảnh III · Skill Chuyển Đổi & Chốt Đơn",
+    subtitle: "Bộ kỹ năng ads đa nền tảng — biến lượt xem thành đơn hàng",
     products: [
-      { id: "fb", title: "Banner Facebook Ads", tag: "1200×628", emoji: "📘" },
-      { id: "ig", title: "Story Instagram", tag: "1080×1920", emoji: "📷" },
-      { id: "tt", title: "TikTok Cover", tag: "1080×1920", emoji: "🎵" },
-      { id: "hero", title: "Landing Hero", tag: "1920×1080", emoji: "🚀" },
+      { id: "fb", title: "Skill · Facebook Conversion", tag: "Meta Ads", emoji: "📘" },
+      { id: "ig", title: "Skill · Instagram Storyteller", tag: "Reels", emoji: "📷" },
+      { id: "tt", title: "Skill · TikTok Viral Hook", tag: "Short Form", emoji: "🎵" },
+      { id: "hero", title: "Skill · Landing Chốt Đơn", tag: "Funnel", emoji: "🚀" },
     ],
   },
 ];
@@ -103,39 +103,40 @@ function Landing() {
           <div className="flex min-w-0 items-center gap-2">
             <div className="h-8 w-8 shrink-0 rounded-lg bg-brand-gradient shadow-brand" />
             <span className="truncate font-display text-2xl">
-              KOL AI <span className="text-gradient">Store</span>
+              KOL AI <span className="text-gradient">Skill World</span>
             </span>
           </div>
           <div className="flex shrink-0 items-center gap-2 text-sm">
             <span className="hidden text-muted-foreground sm:inline">
-              {cart.length} sp · ${total}
+              {cart.length} skill · ${total}
             </span>
             <a
               href="#gian-1"
               className="rounded-full bg-foreground px-4 py-2 font-medium text-background transition hover:opacity-90"
             >
-              Vào chợ →
+              Vào sàn Skill →
             </a>
           </div>
         </div>
       </header>
 
-      {/* Hero rút gọn */}
-      <section className="mx-auto max-w-6xl px-6 pb-10 pt-12 text-center">
-        <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary">
+      {/* Hero */}
+      <section className="mx-auto max-w-6xl px-6 pb-10 pt-14 text-center">
+        <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-primary">
           <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-          Chợ ảnh KOL AI Go Global · 3 gian hàng · $2 / sản phẩm
+          Sàn giao dịch Skill · 3 Sảnh đẳng cấp · $2 / Skill Pack
         </span>
-        <h1 className="mx-auto mt-5 max-w-3xl text-4xl leading-[1.1] sm:text-5xl md:text-6xl">
-          Chợ ảnh bán hàng <em className="text-gradient not-italic">chuyên nghiệp</em>,
-          mỗi món chỉ <span className="text-gradient">$2</span>.
+        <h1 className="mx-auto mt-6 max-w-3xl text-4xl leading-[1.05] sm:text-5xl md:text-6xl">
+          Thế giới <em className="text-gradient not-italic">Skill bán hàng</em> chuyên nghiệp — mỗi
+          Skill Pack chỉ <span className="text-gradient">$2</span>.
         </h1>
-        <p className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground sm:text-base">
-          Lướt qua 3 gian hàng, chọn nhanh, thanh toán gọn — dùng liền cho affiliate, ads & social.
+        <p className="mx-auto mt-5 max-w-xl text-sm text-muted-foreground sm:text-base">
+          Chúng tôi không bán ảnh — chúng tôi trao bạn <strong>kỹ năng</strong>. Chọn Skill, kích
+          hoạt và bán hàng như một KOL thực thụ.
         </p>
       </section>
 
-      {/* 3 Gian hàng */}
+      {/* 3 Sảnh Skill */}
       <div className="mx-auto max-w-6xl space-y-14 px-6 pb-24">
         {categories.map((cat, idx) => (
           <CategoryRow
@@ -152,9 +153,9 @@ function Landing() {
       <section className="mx-auto max-w-6xl px-6 pb-24">
         <div className="grid gap-6 rounded-3xl bg-card p-8 shadow-card sm:grid-cols-3 sm:p-12">
           {[
-            { t: "Chất lượng cao", d: "Ảnh độ phân giải cao, sẵn sàng cho in ấn & quảng cáo." },
-            { t: "Tải về tức thì", d: "Nhận link tải ngay sau khi thanh toán thành công." },
-            { t: "Dùng thương mại", d: "Bản quyền sử dụng cho ads, affiliate và social." },
+            { t: "Đẳng cấp KOL", d: "Skill Pack được đúc kết từ hệ thống KOL AI Go Global." },
+            { t: "Kích hoạt tức thì", d: "Nhận Skill ngay sau thanh toán — dùng được trong 5 phút." },
+            { t: "Bản quyền thương mại", d: "Toàn quyền dùng cho ads, affiliate và đào tạo nội bộ." },
           ].map((f) => (
             <div key={f.t}>
               <div className="mb-3 h-10 w-10 rounded-xl bg-brand-gradient shadow-brand" />
@@ -168,22 +169,22 @@ function Landing() {
       {/* FAQ / CTA */}
       <section id="faq" className="mx-auto max-w-3xl px-6 pb-32 text-center">
         <h2 className="text-4xl sm:text-5xl">
-          Sẵn sàng nâng cấp <span className="text-gradient">ảnh bán hàng</span>?
+          Nâng cấp <span className="text-gradient">Skill bán hàng</span> của bạn hôm nay
         </h2>
         <p className="mt-4 text-muted-foreground">
-          Chỉ $2 mỗi ảnh — đầu tư nhỏ, chuyển đổi lớn cho chiến dịch KOL AI Go Global.
+          $2 cho một Skill — đầu tư nhỏ nhất cho bước nhảy lớn nhất trong sự nghiệp KOL.
         </p>
         <a
           href="#gian-1"
           className="mt-8 inline-block rounded-full bg-brand-gradient px-8 py-3 text-sm font-semibold text-primary-foreground shadow-brand transition hover:scale-[1.02]"
         >
-          Vào chợ chọn ảnh →
+          Khám phá Sàn Skill →
         </a>
       </section>
 
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-8 text-xs text-muted-foreground sm:flex-row">
-          <p>© 2026 KOL AI Store · Uyên Linh</p>
+          <p>© 2026 KOL AI Skill World · Uyên Linh</p>
           <p>Made with love · KOL AI System</p>
         </div>
       </footer>
@@ -192,10 +193,10 @@ function Landing() {
       {cart.length > 0 && (
         <div className="fixed inset-x-0 bottom-4 z-40 mx-auto flex max-w-sm items-center justify-between rounded-full bg-foreground px-5 py-3 text-background shadow-brand">
           <span className="text-sm">
-            🛒 {cart.length} sp · <strong>${total}</strong>
+            ⚡ {cart.length} skill · <strong>${total}</strong>
           </span>
           <button className="rounded-full bg-brand-gradient px-4 py-1.5 text-sm font-semibold text-primary-foreground">
-            Thanh toán →
+            Kích hoạt →
           </button>
         </div>
       )}
@@ -218,14 +219,17 @@ function CategoryRow({
     <section id={anchorId}>
       <div className="mb-5 flex items-end justify-between gap-4">
         <div className="min-w-0">
-          <h2 className="truncate text-2xl sm:text-3xl">{category.title}</h2>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/80">
+            Skill Hall
+          </p>
+          <h2 className="mt-1 truncate text-2xl sm:text-3xl">{category.title}</h2>
           <p className="mt-1 truncate text-sm text-muted-foreground">{category.subtitle}</p>
         </div>
         <a
           href="#faq"
           className="shrink-0 text-sm font-medium text-primary transition hover:opacity-80"
         >
-          Xem tất cả →
+          Toàn bộ Skill →
         </a>
       </div>
 
@@ -291,7 +295,7 @@ function ProductCard({
           disabled={inCart}
           className="w-full rounded-full bg-foreground px-3 py-2 text-xs font-semibold text-background transition hover:opacity-90 disabled:opacity-60"
         >
-          {inCart ? "✓ Đã thêm" : "+ Thêm — $2"}
+          {inCart ? "✓ Đã kích hoạt" : "Kích hoạt Skill · $2"}
         </button>
       </div>
     </article>

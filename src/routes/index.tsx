@@ -126,9 +126,8 @@ function Landing() {
           <span className="h-1.5 w-1.5 rounded-full bg-primary" />
           Sàn giao dịch Skill · 3 Sảnh đẳng cấp · $2 / Skill Pack
         </span>
-        <h1 className="mx-auto mt-6 max-w-3xl text-4xl leading-[1.05] sm:text-5xl md:text-6xl">
-          Thế giới <em className="text-gradient not-italic">Skill bán hàng</em> chuyên nghiệp — mỗi
-          Skill Pack chỉ <span className="text-gradient">$2</span>.
+        <h1 className="mx-auto mt-6 max-w-3xl text-4xl leading-tight sm:text-5xl md:text-6xl">
+          Thế giới <em className="text-gradient not-italic">Skill bán hàng</em> chuyên nghiệp.
         </h1>
         <p className="mx-auto mt-5 max-w-xl text-sm text-muted-foreground sm:text-base">
           Chúng tôi không bán ảnh — chúng tôi trao bạn <strong>kỹ năng</strong>. Chọn Skill, kích

@@ -34,9 +34,9 @@
   --foreground: oklch(0.22 0.03 20);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.22 0.03 20);
-  --primary: oklch(0.68 0.20 20);           /* coral/pink */
+  --primary: oklch(0.68 0.2 20); /* coral/pink */
   --primary-foreground: oklch(0.99 0 0);
-  --primary-glow: oklch(0.78 0.17 30);      /* peach */
+  --primary-glow: oklch(0.78 0.17 30); /* peach */
   --secondary: oklch(0.95 0.03 60);
   --secondary-foreground: oklch(0.25 0.03 20);
   --muted: oklch(0.95 0.02 60);
@@ -44,29 +44,44 @@
   --accent: oklch(0.92 0.08 40);
   --accent-foreground: oklch(0.25 0.03 20);
   --border: oklch(0.9 0.02 40);
-  --ring: oklch(0.68 0.20 20);
+  --ring: oklch(0.68 0.2 20);
 
-  --gradient-brand: linear-gradient(135deg, oklch(0.68 0.20 20), oklch(0.78 0.17 30));
+  --gradient-brand: linear-gradient(135deg, oklch(0.68 0.2 20), oklch(0.78 0.17 30));
   --gradient-soft: linear-gradient(180deg, oklch(0.98 0.012 60), oklch(0.94 0.04 40));
-  --shadow-brand: 0 20px 50px -20px oklch(0.68 0.20 20 / 0.45);
-  --shadow-card: 0 10px 30px -12px oklch(0.30 0.05 20 / 0.18);
+  --shadow-brand: 0 20px 50px -20px oklch(0.68 0.2 20 / 0.45);
+  --shadow-card: 0 10px 30px -12px oklch(0.3 0.05 20 / 0.18);
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
+  * {
+    border-color: var(--color-border);
+  }
   body {
     background: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
-  h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.01em; }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
 }
 
-@utility bg-brand-gradient { background-image: var(--gradient-brand); }
-@utility bg-soft-gradient { background-image: var(--gradient-soft); }
-@utility shadow-brand { box-shadow: var(--shadow-brand); }
-@utility shadow-card { box-shadow: var(--shadow-card); }
+@utility bg-brand-gradient {
+  background-image: var(--gradient-brand);
+}
+@utility bg-soft-gradient {
+  background-image: var(--gradient-soft);
+}
+@utility shadow-brand {
+  box-shadow: var(--shadow-brand);
+}
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
+}
 @utility text-gradient {
   background-image: var(--gradient-brand);
   -webkit-background-clip: text;

@@ -30,9 +30,14 @@ import {
   Users,
   Video,
 } from "lucide-react";
-import kolGraduation from "@/assets/kol-graduation.asset.json";
 import kolGym from "@/assets/kol-gym.asset.json";
 import kolGymVideo from "@/assets/kol-gym-video.mp4.asset.json";
+import sanh1Graduation from "@/assets/sanh-1/graduation.webp";
+import sanh1Launch from "@/assets/sanh-1/launch.webp";
+import sanh1Honor from "@/assets/sanh-1/honor.webp";
+import sanh1Workshop from "@/assets/sanh-1/workshop.webp";
+import sanh1StoryBrand from "@/assets/sanh-1/story-brand.webp";
+import sanh1PrMedia from "@/assets/sanh-1/pr-media.webp";
 
 export type Product = {
   id: string;
@@ -75,7 +80,7 @@ const seed: CategorySeed[] = [
         tag: "Signature",
         price: 2,
         icon: Award,
-        image: kolGraduation.url,
+        image: sanh1Graduation,
         bestseller: true,
         shortDesc:
           "Kỹ năng xuất hiện trên sân khấu vinh danh — dựng khoảnh khắc đỉnh cao sự nghiệp.",
@@ -94,6 +99,7 @@ const seed: CategorySeed[] = [
         tag: "Premium",
         price: 2,
         icon: PartyPopper,
+        image: sanh1Launch,
         shortDesc: "Kỹ năng dựng chiến dịch ra mắt thương hiệu tạo hiệu ứng lan tỏa.",
         longDesc:
           "Từ teaser đến ngày ra mắt chính thức — Skill Pack này cung cấp lộ trình 7 ngày dựng nội dung ra mắt thương hiệu, kèm khung kịch bản đếm ngược tạo cảm giác khan hiếm và hào hứng cho người theo dõi.",
@@ -110,6 +116,7 @@ const seed: CategorySeed[] = [
         tag: "Advanced",
         price: 2,
         icon: Trophy,
+        image: sanh1Honor,
         shortDesc: "Kỹ năng định vị bản thân là chuyên gia đầu ngành trong 30 ngày.",
         longDesc:
           "Skill Pack tổng hợp công thức định vị chuyên gia: chọn ngách, xây dựng luận điểm riêng, và hệ thống nội dung chứng minh năng lực. Phù hợp cho ai muốn được nhận diện là người dẫn đầu trong lĩnh vực của mình.",
@@ -126,6 +133,7 @@ const seed: CategorySeed[] = [
         tag: "Master",
         price: 2,
         icon: Mic,
+        image: sanh1Workshop,
         shortDesc: "Kỹ năng đứng lớp và diễn thuyết workshop tự tin, cuốn hút.",
         longDesc:
           "Bộ kỹ năng giúp bạn tự tin đứng trước đám đông: cấu trúc bài giảng, cách mở đầu gây chú ý, kỹ thuật giữ nhịp năng lượng khán phòng và chốt lời kêu gọi hành động mạnh mẽ ở cuối buổi.",
@@ -142,6 +150,7 @@ const seed: CategorySeed[] = [
         tag: "Story",
         price: 2,
         icon: BookOpen,
+        image: sanh1StoryBrand,
         shortDesc: "Kỹ năng kể chuyện thương hiệu chạm cảm xúc, tăng độ tin cậy.",
         longDesc:
           "StoryBrand Skill Pack hướng dẫn bạn xây dựng câu chuyện thương hiệu theo mô hình hành trình khách hàng: vấn đề — giải pháp — chuyển hoá. Dùng để viết bio, video giới thiệu, hoặc landing page.",
@@ -158,6 +167,7 @@ const seed: CategorySeed[] = [
         tag: "PR",
         price: 2,
         icon: Newspaper,
+        image: sanh1PrMedia,
         shortDesc: "Kỹ năng xây dựng hình ảnh xuất hiện trên truyền thông, báo chí.",
         longDesc:
           "Skill Pack giúp bạn dựng bộ hình ảnh và thông cáo báo chí chuyên nghiệp để xuất hiện trên các kênh truyền thông, tăng độ tin cậy thương hiệu cá nhân trong mắt khách hàng và đối tác.",

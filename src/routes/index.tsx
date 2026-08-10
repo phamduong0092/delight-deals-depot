@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ShoppingCart, Sparkles } from "lucide-react";
-import kolGraduation from "@/assets/kol-graduation.asset.json";
+import sanh1Graduation from "@/assets/sanh-1/graduation.webp";
 import { categories, type Category, type Product } from "@/lib/products";
 import { useCart } from "@/lib/cart";
 import { ProductArt } from "@/components/ProductArt";
@@ -21,9 +21,9 @@ export const Route = createFileRoute("/")({
         content: "Sàn Skill bán hàng chuyên nghiệp. 5 sảnh Skill đẳng cấp. $2 mỗi Skill Pack.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: kolGraduation.url },
+      { property: "og:image", content: sanh1Graduation },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: kolGraduation.url },
+      { name: "twitter:image", content: sanh1Graduation },
     ],
   }),
   component: Landing,

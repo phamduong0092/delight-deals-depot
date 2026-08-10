@@ -58,6 +58,8 @@ const categories: Category[] = [
       { id: "launch", title: "Skill · Ra Mắt Thương Hiệu", tag: "Premium", emoji: "🎉" },
       { id: "honor", title: "Skill · Định Vị Chuyên Gia", tag: "Advanced", emoji: "🏆" },
       { id: "workshop", title: "Skill · Diễn Thuyết Workshop", tag: "Master", emoji: "🎤" },
+      { id: "story-brand", title: "Skill · Kể Chuyện Thương Hiệu", tag: "Story", emoji: "📖" },
+      { id: "pr-media", title: "Skill · Xuất Hiện Truyền Thông", tag: "PR", emoji: "📰" },
     ],
   },
   {
@@ -75,20 +77,51 @@ const categories: Category[] = [
       { id: "outfit", title: "Skill · Phối Đồ Bán Hàng", tag: "Style", emoji: "💪" },
       { id: "street", title: "Skill · Street Storytelling", tag: "Story", emoji: "🕶️" },
       { id: "studio", title: "Skill · Chân Dung Cao Cấp", tag: "Luxury", emoji: "📸" },
+      { id: "travel", title: "Skill · Lifestyle Du Lịch", tag: "Journey", emoji: "🌴" },
+      { id: "daily", title: "Skill · Nhật Ký Đời Thường", tag: "Daily", emoji: "☕" },
     ],
   },
   {
-    id: "ads",
-    title: "Sảnh III · Skill Chuyển Đổi & Chốt Đơn",
-    subtitle: "Bộ kỹ năng ads đa nền tảng — biến lượt xem thành đơn hàng",
+    id: "video",
+    title: "Sảnh III · Skill Video & TVC",
+    subtitle: "Kỹ năng dựng video quảng cáo — từ kịch bản đến TVC chuẩn thương hiệu",
     products: [
-      { id: "fb", title: "Skill · Facebook Conversion", tag: "Meta Ads", emoji: "📘" },
-      { id: "ig", title: "Skill · Instagram Storyteller", tag: "Reels", emoji: "📷" },
-      { id: "tt", title: "Skill · TikTok Viral Hook", tag: "Short Form", emoji: "🎵" },
+      { id: "tvc-brand", title: "Skill · TVC Thương Hiệu", tag: "Cinematic", emoji: "🎬" },
+      { id: "script", title: "Skill · Kịch Bản 30 Giây", tag: "Script", emoji: "📝" },
+      { id: "reels", title: "Skill · Reels Chuyển Cảnh", tag: "Reels", emoji: "🎞️" },
+      { id: "unbox", title: "Skill · Video Review Sản Phẩm", tag: "Review", emoji: "📦" },
+      { id: "livestream", title: "Skill · Livestream Bán Hàng", tag: "Live", emoji: "🔴" },
+      { id: "voice", title: "Skill · Giọng Đọc & Lồng Tiếng", tag: "Audio", emoji: "🎙️" },
+    ],
+  },
+  {
+    id: "landing",
+    title: "Sảnh IV · Skill Trang Bán Hàng",
+    subtitle: "Bộ kỹ năng dựng landing page chốt đơn — thiết kế, copy và chuyển đổi",
+    products: [
       { id: "hero", title: "Skill · Landing Chốt Đơn", tag: "Funnel", emoji: "🚀" },
+      { id: "copy", title: "Skill · Copywriting Bán Hàng", tag: "Copy", emoji: "✍️" },
+      { id: "offer", title: "Skill · Thiết Kế Offer", tag: "Offer", emoji: "🎁" },
+      { id: "checkout", title: "Skill · Tối Ưu Thanh Toán", tag: "Checkout", emoji: "💳" },
+      { id: "upsell", title: "Skill · Upsell & Combo", tag: "Growth", emoji: "📈" },
+      { id: "trust", title: "Skill · Chứng Thực Khách Hàng", tag: "Trust", emoji: "⭐" },
+    ],
+  },
+  {
+    id: "course",
+    title: "Sảnh V · Skill Khóa Học",
+    subtitle: "Kỹ năng đóng gói tri thức thành khóa học và bán hàng tự động",
+    products: [
+      { id: "curriculum", title: "Skill · Thiết Kế Giáo Trình", tag: "Blueprint", emoji: "🧭" },
+      { id: "slide", title: "Skill · Slide Giảng Dạy", tag: "Deck", emoji: "🖥️" },
+      { id: "record", title: "Skill · Quay Bài Giảng", tag: "Studio", emoji: "🎥" },
+      { id: "community", title: "Skill · Vận Hành Cộng Đồng", tag: "Community", emoji: "🤝" },
+      { id: "webinar", title: "Skill · Webinar Chốt Học Viên", tag: "Webinar", emoji: "📡" },
+      { id: "affiliate", title: "Skill · Hệ Thống Affiliate", tag: "Scale", emoji: "🌐" },
     ],
   },
 ];
+
 
 function Landing() {
   const [cart, setCart] = useState<string[]>([]);
@@ -124,7 +157,7 @@ function Landing() {
       <section className="mx-auto max-w-6xl px-6 pb-10 pt-14 text-center">
         <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-primary">
           <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-          Sàn giao dịch Skill · 3 Sảnh đẳng cấp · $2 / Skill Pack
+          Sàn giao dịch Skill · 5 Sảnh đẳng cấp · 30 Skill Pack
         </span>
         <h1 className="mx-auto mt-6 max-w-3xl text-4xl leading-tight sm:text-5xl md:text-6xl">
           Thế giới <em className="text-gradient not-italic">Skill bán hàng</em> chuyên nghiệp.
@@ -232,7 +265,7 @@ function CategoryRow({
         </a>
       </div>
 
-      <div className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 md:grid-cols-4">
+      <div className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 md:grid-cols-3 lg:grid-cols-6">
         {category.products.map((p) => (
           <ProductCard
             key={p.id}

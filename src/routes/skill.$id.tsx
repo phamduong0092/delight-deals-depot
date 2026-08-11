@@ -44,6 +44,7 @@ function SkillDetail() {
 
   const category = getCategory(product.categoryId);
   const inCart = cart.has(product.id);
+  const available = product.available === true;
 
   const related = category ? category.products.filter((p) => p.id !== product.id).slice(0, 6) : [];
 
@@ -95,9 +96,20 @@ function SkillDetail() {
         <div className="grid gap-10 lg:grid-cols-2">
           <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-card">
             <div className="relative aspect-square">
-              <ProductArt product={product} iconClassName="h-20 w-20" />
-              {product.bestseller && (
-                <span className="absolute left-4 top-4 rounded-full bg-foreground/90 px-3 py-1 text-xs font-medium text-background">
+              <ProductArt
+                product={product}
+                iconClassName="h-20 w-20"
+                className={!available ? "opacity-40 grayscale" : undefined}
+              />
+              {!available && (
+                <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-[1px]">
+                  <span className="rounded-full border border-border bg-background/90 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground shadow-card">
+                    Coming Soon
+                  </span>
+                </div>
+              )}
+              {product.bestseller && available && (
+                <span className="absolute left-4 top-4 rounded-full bg-wood-gradient px-3 py-1 text-xs font-medium text-white shadow-wood">
                   Bán chạy
                 </span>
               )}
@@ -116,16 +128,24 @@ function SkillDetail() {
               <span className="text-sm text-muted-foreground">/ Skill Pack · trọn đời</span>
             </div>
 
+            {!available && (
+              <p className="mt-6 text-sm text-muted-foreground">
+                Skill này đang được hoàn thiện nội dung, sẽ mở bán sớm.
+              </p>
+            )}
+
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <button
                 onClick={buyNow}
-                className="flex-1 rounded-full bg-brand-gradient px-6 py-3 text-sm font-semibold text-primary-foreground shadow-brand transition hover:scale-[1.02]"
+                disabled={!available}
+                className="shimmer flex-1 rounded-full bg-brand-gradient px-6 py-3 text-sm font-semibold text-primary-foreground shadow-brand transition hover:scale-[1.02] disabled:pointer-events-none disabled:opacity-40 disabled:shadow-none disabled:after:hidden"
               >
-                Mua ngay · ${product.price}
+                {available ? `Mua ngay · $${product.price}` : "Sắp ra mắt"}
               </button>
               <button
                 onClick={() => cart.toggle(product.id)}
-                className="flex-1 rounded-full border border-border px-6 py-3 text-sm font-semibold transition hover:bg-accent"
+                disabled={!available}
+                className="flex-1 rounded-full border border-border px-6 py-3 text-sm font-semibold transition hover:bg-accent disabled:pointer-events-none disabled:opacity-40"
               >
                 {inCart ? "✓ Đã có trong giỏ" : "Thêm vào giỏ"}
               </button>

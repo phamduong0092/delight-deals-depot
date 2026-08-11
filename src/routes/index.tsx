@@ -203,20 +203,31 @@ function CategoryRow({ anchorId, category }: { anchorId: string; category: Categ
 function ProductCard({ product }: { product: Product }) {
   const cart = useCart();
   const inCart = cart.has(product.id);
+  const available = product.available === true;
 
   return (
     <article className="group w-full overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:shadow-brand">
       <Link to="/skill/$id" params={{ id: product.id }} className="block">
         <div className="relative aspect-[3/4] overflow-hidden bg-muted">
-          <ProductArt product={product} className="transition duration-700 group-hover:scale-105" />
-          {product.bestseller && (
+          <ProductArt
+            product={product}
+            className={`transition duration-700 group-hover:scale-105 ${!available ? "opacity-40 grayscale" : ""}`}
+          />
+          {!available && (
+            <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-[1px]">
+              <span className="rounded-full border border-border bg-background/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground shadow-card">
+                Coming Soon
+              </span>
+            </div>
+          )}
+          {product.bestseller && available && (
             <span className="absolute left-2 top-2 rounded-full bg-wood-gradient px-2 py-0.5 text-[10px] font-medium text-white shadow-wood backdrop-blur">
               Bán chạy
             </span>
           )}
           <span
             className={`absolute ${
-              product.bestseller ? "left-2 top-8" : "left-2 top-2"
+              product.bestseller && available ? "left-2 top-8" : "left-2 top-2"
             } rounded-full bg-background/90 px-2 py-0.5 text-[10px] font-medium backdrop-blur`}
           >
             {product.tag}
@@ -234,9 +245,14 @@ function ProductCard({ product }: { product: Product }) {
         </Link>
         <button
           onClick={() => cart.toggle(product.id)}
-          className="w-full rounded-full bg-foreground px-3 py-2 text-xs font-semibold text-background transition hover:opacity-90 disabled:opacity-60"
+          disabled={!available}
+          className="w-full rounded-full bg-foreground px-3 py-2 text-xs font-semibold text-background transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {inCart ? "✓ Đã thêm vào giỏ" : `Thêm vào giỏ · $${product.price}`}
+          {!available
+            ? "Sắp ra mắt"
+            : inCart
+              ? "✓ Đã thêm vào giỏ"
+              : `Thêm vào giỏ · $${product.price}`}
         </button>
       </div>
     </article>

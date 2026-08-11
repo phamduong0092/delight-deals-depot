@@ -49,6 +49,8 @@ export type Product = {
   image?: string;
   video?: string;
   bestseller?: boolean;
+  /** true khi Skill Pack đã có nội dung thật đứng sau (file thật, mua được ngay). Mặc định false = "Sắp ra mắt". */
+  available?: boolean;
   shortDesc: string;
   longDesc: string;
   features: string[];
@@ -297,14 +299,17 @@ const seed: CategorySeed[] = [
         tag: "Cinematic",
         price: 2,
         icon: Film,
-        shortDesc: "Kỹ năng dựng TVC thương hiệu điện ảnh, chuyên nghiệp.",
+        available: true,
+        bestseller: true,
+        shortDesc:
+          "AI Skill thật: từ 1 ảnh tạo Storyboard điện ảnh nhiều góc quay + 1 prompt video hoàn chỉnh.",
         longDesc:
-          "Skill Pack hướng dẫn quy trình dựng TVC từ concept đến hậu kỳ: chọn bối cảnh điện ảnh, nhịp dựng cảm xúc và âm thanh tạo chiều sâu thương hiệu.",
+          "Đây là Skill Pack đầy đủ — không phải hướng dẫn suông, mà là một AI Skill thật, cài thẳng vào Claude hoặc ChatGPT để dùng ngay. Từ một ảnh tham chiếu, Skill tự dựng kịch bản điện ảnh nhiều nhịp hành động, tạo storyboard nhiều góc quay khóa chặt nhận diện khuôn mặt và trang phục, rồi viết sẵn một prompt video tổng hợp tối ưu cho Omni hoặc Seedance. Chế độ Multishot còn tạo 9 ảnh góc quay khác nhau từ cùng một khoảnh khắc để làm nội dung đăng bài.",
         features: [
-          "Khung kịch bản TVC 30-60 giây",
-          "Bảng phân cảnh (storyboard) mẫu",
-          "Gợi ý nhạc nền theo tông thương hiệu",
-          "Checklist hậu kỳ màu điện ảnh",
+          "AI Skill thật — cài vào Claude/ChatGPT dùng ngay, không chỉ là hướng dẫn",
+          "Chế độ Storyboard: kịch bản điện ảnh nhiều góc quay + 1 prompt video Omni/Seedance",
+          "Chế độ Multishot: 9 ảnh góc quay khác nhau từ cùng 1 khoảnh khắc",
+          "Face Lock & Outfit Lock — giữ đúng nhân vật, trang phục xuyên suốt mọi ảnh",
         ],
       },
       {

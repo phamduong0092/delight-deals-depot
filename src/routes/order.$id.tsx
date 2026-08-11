@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Check, Copy, MessageCircleMore, PartyPopper } from "lucide-react";
+import { Check, Copy, MessageCircleMore, PartyPopper, Send } from "lucide-react";
 import { getOrder, type Order } from "@/lib/orders";
+import { BANK_INFO, ZALO_LINK, buildVietQrUrl, formatVnd, usdToVnd } from "@/lib/payment";
 
 export const Route = createFileRoute("/order/$id")({
   head: () => ({
@@ -9,13 +10,6 @@ export const Route = createFileRoute("/order/$id")({
   }),
   component: OrderConfirmation,
 });
-
-// TODO: thay bằng thông tin tài khoản ngân hàng / VietQR thật trước khi vận hành chính thức.
-const BANK_INFO = {
-  bankName: "Chưa cấu hình — cập nhật trong src/routes/order.$id.tsx",
-  accountNumber: "—",
-  accountHolder: "—",
-};
 
 function OrderConfirmation() {
   const { id } = Route.useParams();
@@ -96,16 +90,32 @@ function OrderConfirmation() {
           </ul>
           <div className="mt-3 flex items-center justify-between border-t border-border pt-3 text-sm font-semibold">
             <span>Tổng cộng</span>
-            <span className="text-gradient">${order.total}</span>
+            <span className="text-right">
+              <span className="text-gradient">${order.total}</span>
+              {order.paymentMethod === "bank_transfer" && (
+                <span className="ml-2 text-xs font-normal text-muted-foreground">
+                  ({formatVnd(usdToVnd(order.total))})
+                </span>
+              )}
+            </span>
           </div>
         </div>
 
         {order.paymentMethod === "bank_transfer" && (
           <div className="mt-6 rounded-2xl border border-primary/20 bg-primary/5 p-5 sm:p-6">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-primary">
-              Thông tin chuyển khoản
+              Quét mã để chuyển khoản
             </h2>
-            <dl className="mt-3 space-y-2 text-sm">
+
+            <div className="mt-4 flex justify-center">
+              <img
+                src={buildVietQrUrl(usdToVnd(order.total), order.id)}
+                alt={`Mã VietQR chuyển khoản ${formatVnd(usdToVnd(order.total))} tới ${BANK_INFO.accountHolder}`}
+                className="w-full max-w-[280px] rounded-xl border border-border bg-white p-2 shadow-card"
+              />
+            </div>
+
+            <dl className="mt-4 space-y-2 text-sm">
               <div className="flex justify-between gap-4">
                 <dt className="text-muted-foreground">Ngân hàng</dt>
                 <dd className="text-right">{BANK_INFO.bankName}</dd>
@@ -119,14 +129,34 @@ function OrderConfirmation() {
                 <dd>{BANK_INFO.accountHolder}</dd>
               </div>
               <div className="flex justify-between gap-4">
+                <dt className="text-muted-foreground">Số tiền</dt>
+                <dd className="font-semibold text-primary">{formatVnd(usdToVnd(order.total))}</dd>
+              </div>
+              <div className="flex justify-between gap-4">
                 <dt className="text-muted-foreground">Nội dung chuyển khoản</dt>
                 <dd className="font-mono">{order.id}</dd>
               </div>
             </dl>
+
             <p className="mt-4 flex items-start gap-2 text-xs text-muted-foreground">
               <MessageCircleMore className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-              Sau khi chuyển khoản, vui lòng gửi ảnh chụp màn hình kèm mã đơn hàng qua Zalo/Facebook
-              để được kích hoạt Skill trong vòng 5 phút.
+              Số tiền và nội dung đã tự động điền sẵn trong mã QR — chỉ cần mở app ngân hàng và
+              quét.
+            </p>
+
+            <a
+              href={ZALO_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 flex items-center justify-center gap-2 rounded-full bg-brand-gradient px-5 py-3 text-sm font-semibold text-primary-foreground shadow-brand transition hover:scale-[1.02]"
+            >
+              <Send className="h-4 w-4" />
+              Sau khi chuyển khoản, nhắn Zalo xác nhận: {BANK_INFO.accountHolder} ·{" "}
+              {ZALO_LINK.replace("https://zalo.me/", "")}
+            </a>
+            <p className="mt-2 text-center text-xs text-muted-foreground">
+              Gửi kèm ảnh chụp màn hình chuyển khoản + mã đơn hàng{" "}
+              <span className="font-mono">{order.id}</span> để được kích hoạt Skill.
             </p>
           </div>
         )}

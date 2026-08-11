@@ -612,10 +612,11 @@ export const getProduct = (id: string) => allProducts.find((p) => p.id === id);
 
 export const getCategory = (id: string) => categories.find((c) => c.id === id);
 
+// Dải màu cam Hỏa → vàng gold → xanh Mộc, hài hòa xuyên suốt 5 sảnh.
 export const iconGradients: Record<string, string> = {
-  poster: "from-[oklch(0.68_0.20_20)] to-[oklch(0.78_0.17_30)]",
-  lifestyle: "from-[oklch(0.72_0.15_40)] to-[oklch(0.82_0.12_60)]",
-  video: "from-[oklch(0.60_0.18_10)] to-[oklch(0.70_0.20_30)]",
-  landing: "from-[oklch(0.65_0.17_320)] to-[oklch(0.75_0.15_20)]",
-  course: "from-[oklch(0.62_0.14_250)] to-[oklch(0.72_0.16_20)]",
+  poster: "from-[oklch(0.70_0.19_45)] to-[oklch(0.81_0.15_68)]",
+  lifestyle: "from-[oklch(0.75_0.14_60)] to-[oklch(0.85_0.10_80)]",
+  video: "from-[oklch(0.62_0.18_35)] to-[oklch(0.72_0.18_50)]",
+  landing: "from-[oklch(0.62_0.10_170)] to-[oklch(0.75_0.10_155)]",
+  course: "from-[oklch(0.58_0.11_152)] to-[oklch(0.75_0.11_150)]",
 };

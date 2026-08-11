@@ -29,27 +29,33 @@
 
 :root {
   --radius: 1rem;
-  /* Lovable brand: warm cream + coral/pink gradient */
-  --background: oklch(0.98 0.012 60);
-  --foreground: oklch(0.22 0.03 20);
+  /* Brand mệnh Hỏa: cam rực chủ đạo + Mộc (xanh lá) tương sinh làm điểm nhấn */
+  --background: oklch(0.98 0.016 65);
+  --foreground: oklch(0.22 0.03 40);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.03 20);
-  --primary: oklch(0.68 0.2 20); /* coral/pink */
+  --card-foreground: oklch(0.22 0.03 40);
+  --primary: oklch(0.7 0.19 45); /* cam Hỏa */
   --primary-foreground: oklch(0.99 0 0);
-  --primary-glow: oklch(0.78 0.17 30); /* peach */
+  --primary-glow: oklch(0.81 0.15 68); /* vàng gold ánh kim */
   --secondary: oklch(0.95 0.03 60);
-  --secondary-foreground: oklch(0.25 0.03 20);
+  --secondary-foreground: oklch(0.25 0.03 40);
   --muted: oklch(0.95 0.02 60);
-  --muted-foreground: oklch(0.45 0.02 30);
-  --accent: oklch(0.92 0.08 40);
-  --accent-foreground: oklch(0.25 0.03 20);
-  --border: oklch(0.9 0.02 40);
-  --ring: oklch(0.68 0.2 20);
+  --muted-foreground: oklch(0.45 0.02 40);
+  --accent: oklch(0.93 0.05 55);
+  --accent-foreground: oklch(0.25 0.03 40);
+  --border: oklch(0.9 0.02 50);
+  --ring: oklch(0.7 0.19 45);
 
-  --gradient-brand: linear-gradient(135deg, oklch(0.68 0.2 20), oklch(0.78 0.17 30));
-  --gradient-soft: linear-gradient(180deg, oklch(0.98 0.012 60), oklch(0.94 0.04 40));
-  --shadow-brand: 0 20px 50px -20px oklch(0.68 0.2 20 / 0.45);
-  --shadow-card: 0 10px 30px -12px oklch(0.3 0.05 20 / 0.18);
+  --wood: oklch(0.58 0.11 152); /* xanh ngọc Mộc, tương sinh Hỏa */
+  --wood-glow: oklch(0.82 0.09 155);
+  --wood-foreground: oklch(0.99 0 0);
+
+  --gradient-brand: linear-gradient(135deg, oklch(0.7 0.19 45), oklch(0.81 0.15 68));
+  --gradient-wood: linear-gradient(135deg, oklch(0.58 0.11 152), oklch(0.75 0.11 150));
+  --gradient-soft: linear-gradient(180deg, oklch(0.98 0.016 65), oklch(0.94 0.05 55));
+  --shadow-brand: 0 20px 50px -20px oklch(0.7 0.19 45 / 0.45);
+  --shadow-wood: 0 16px 40px -18px oklch(0.58 0.11 152 / 0.4);
+  --shadow-card: 0 10px 30px -12px oklch(0.3 0.05 40 / 0.18);
 }
 
 @layer base {
@@ -87,4 +93,65 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+@utility bg-wood-gradient {
+  background-image: var(--gradient-wood);
+}
+@utility shadow-wood {
+  box-shadow: var(--shadow-wood);
+}
+@utility text-wood {
+  color: var(--wood);
+}
+
+/* Hiệu ứng "lung linh": ánh sáng lướt qua nút, hào quang mềm, lấp lánh */
+@utility shimmer {
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 30%, oklch(1 0 0 / 0.4) 50%, transparent 70%);
+    transform: translateX(-130%);
+    animation: shimmer-sweep 3.2s ease-in-out infinite;
+  }
+}
+@utility glow-pulse {
+  animation: glow-pulse 2.6s ease-in-out infinite;
+}
+@utility sparkle-twinkle {
+  animation: sparkle-twinkle 1.9s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes shimmer-sweep {
+  0%,
+  20% {
+    transform: translateX(-130%);
+  }
+  60%,
+  100% {
+    transform: translateX(130%);
+  }
+}
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 oklch(0.7 0.19 45 / 0.35);
+  }
+  50% {
+    box-shadow: 0 0 26px 6px oklch(0.7 0.19 45 / 0.35);
+  }
+}
+@keyframes sparkle-twinkle {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.85) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15) rotate(18deg);
+  }
 }

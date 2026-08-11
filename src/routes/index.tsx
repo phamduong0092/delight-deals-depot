@@ -83,7 +83,7 @@ function Landing() {
       {/* Hero */}
       <section className="mx-auto max-w-6xl px-6 pb-10 pt-14 text-center">
         <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-primary">
-          <Sparkles className="h-3.5 w-3.5" />
+          <Sparkles className="sparkle-twinkle h-3.5 w-3.5" />
           Sàn giao dịch Skill · 5 Sảnh đẳng cấp · 30 Skill Pack
         </span>
         <h1 className="mx-auto mt-6 max-w-3xl text-4xl leading-tight sm:text-5xl md:text-6xl">
@@ -137,7 +137,7 @@ function Landing() {
         </p>
         <a
           href="#gian-1"
-          className="mt-8 inline-block rounded-full bg-brand-gradient px-8 py-3 text-sm font-semibold text-primary-foreground shadow-brand transition hover:scale-[1.02]"
+          className="shimmer glow-pulse mt-8 inline-block rounded-full bg-brand-gradient px-8 py-3 text-sm font-semibold text-primary-foreground shadow-brand transition hover:scale-[1.02]"
         >
           Khám phá Sàn Skill →
         </a>
@@ -210,7 +210,7 @@ function ProductCard({ product }: { product: Product }) {
         <div className="relative aspect-[3/4] overflow-hidden bg-muted">
           <ProductArt product={product} className="transition duration-700 group-hover:scale-105" />
           {product.bestseller && (
-            <span className="absolute left-2 top-2 rounded-full bg-foreground/90 px-2 py-0.5 text-[10px] font-medium text-background backdrop-blur">
+            <span className="absolute left-2 top-2 rounded-full bg-wood-gradient px-2 py-0.5 text-[10px] font-medium text-white shadow-wood backdrop-blur">
               Bán chạy
             </span>
           )}

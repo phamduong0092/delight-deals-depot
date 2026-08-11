@@ -212,7 +212,7 @@ function Checkout() {
             </div>
             <button
               type="submit"
-              className="w-full rounded-full bg-brand-gradient px-6 py-3 text-sm font-semibold text-primary-foreground shadow-brand transition hover:scale-[1.02]"
+              className="shimmer w-full rounded-full bg-brand-gradient px-6 py-3 text-sm font-semibold text-primary-foreground shadow-brand transition hover:scale-[1.02]"
             >
               Đặt hàng · ${cart.total}
             </button>

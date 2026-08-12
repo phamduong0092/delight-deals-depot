@@ -1,10 +1,13 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Building2, ShoppingBag, Trash2 } from "lucide-react";
 import { getProduct } from "@/lib/products";
 import { useCart } from "@/lib/cart";
+import { useAuth } from "@/lib/auth";
+import { supabase } from "@/lib/supabase";
 import { ProductArt } from "@/components/ProductArt";
-import { generateOrderId, saveOrder, type Order } from "@/lib/orders";
+import { generateOrderId, saveOrder, saveOrderToSupabase, type Order } from "@/lib/orders";
+import { loadRememberedInfo, saveRememberedInfo } from "@/lib/rememberedInfo";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -18,6 +21,7 @@ type PaymentMethod = Order["paymentMethod"];
 function Checkout() {
   const cart = useCart();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -25,6 +29,23 @@ function Checkout() {
   const [note, setNote] = useState("");
   const [payment, setPayment] = useState<PaymentMethod>("bank_transfer");
   const [error, setError] = useState<string | null>(null);
+
+  // Chưa đăng nhập: tự điền lại thông tin đã nhập ở lần trước trên chính thiết bị này.
+  useEffect(() => {
+    const remembered = loadRememberedInfo();
+    setName((prev) => prev || remembered.name || "");
+    setPhone((prev) => prev || remembered.phone || "");
+    setEmail((prev) => prev || remembered.email || "");
+  }, []);
+
+  // Đã đăng nhập thì ưu tiên thông tin lưu lúc đăng ký, đỡ phải gõ lại mỗi lần mua.
+  useEffect(() => {
+    if (!user) return;
+    setName((prev) => prev || (user.user_metadata?.full_name as string | undefined) || "");
+    setPhone((prev) => prev || (user.user_metadata?.phone as string | undefined) || "");
+    setEmail((prev) => prev || (user.user_metadata?.email as string | undefined) || "");
+    setNote((prev) => prev || (user.user_metadata?.note as string | undefined) || "");
+  }, [user]);
 
   const items = cart.itemIds
     .map((id) => getProduct(id))
@@ -42,7 +63,10 @@ function Checkout() {
     }
 
     const order: Order = {
-      id: generateOrderId(),
+      id: generateOrderId(
+        name.trim(),
+        items.map((p) => p.id),
+      ),
       createdAt: new Date().toISOString(),
       items: items.map((p) => ({ id: p.id, title: p.title, price: p.price })),
       total: cart.total,
@@ -57,6 +81,22 @@ function Checkout() {
     };
 
     saveOrder(order);
+    saveRememberedInfo({
+      name: order.customer.name,
+      phone: order.customer.phone,
+      email: order.customer.email,
+    });
+    void saveOrderToSupabase(order, user?.id);
+    if (user) {
+      void supabase
+        .from("profiles")
+        .update({
+          full_name: order.customer.name,
+          phone: order.customer.phone,
+          note: note.trim() || null,
+        })
+        .eq("id", user.id);
+    }
     cart.clear();
     navigate({ to: "/order/$id", params: { id: order.id } });
   };
@@ -105,6 +145,7 @@ function Checkout() {
                   <input
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    onBlur={(e) => saveRememberedInfo({ name: e.target.value.trim() })}
                     required
                     className="mt-1.5 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm outline-none ring-primary/30 transition focus:ring-2"
                     placeholder="Nguyễn Văn A"
@@ -115,6 +156,7 @@ function Checkout() {
                   <input
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
+                    onBlur={(e) => saveRememberedInfo({ phone: e.target.value.trim() })}
                     required
                     className="mt-1.5 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm outline-none ring-primary/30 transition focus:ring-2"
                     placeholder="09xx xxx xxx"
@@ -126,6 +168,7 @@ function Checkout() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    onBlur={(e) => saveRememberedInfo({ email: e.target.value.trim() })}
                     className="mt-1.5 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm outline-none ring-primary/30 transition focus:ring-2"
                     placeholder="ban@email.com"
                   />

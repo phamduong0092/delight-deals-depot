@@ -77,7 +77,7 @@ const seed: CategorySeed[] = [
     subtitle: "Bộ kỹ năng xây dựng hình ảnh KOL đẳng cấp — từ định vị đến sân khấu",
     products: [
       {
-        id: "graduation",
+        id: "S0101",
         title: "Skill · Sân Khấu Vinh Danh",
         tag: "Signature",
         price: 2,
@@ -96,7 +96,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "launch",
+        id: "S0102",
         title: "Skill · Ra Mắt Thương Hiệu",
         tag: "Premium",
         price: 2,
@@ -113,7 +113,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "honor",
+        id: "S0103",
         title: "Skill · Định Vị Chuyên Gia",
         tag: "Advanced",
         price: 2,
@@ -130,7 +130,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "workshop",
+        id: "S0104",
         title: "Skill · Diễn Thuyết Workshop",
         tag: "Master",
         price: 2,
@@ -147,7 +147,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "story-brand",
+        id: "S0105",
         title: "Skill · Kể Chuyện Thương Hiệu",
         tag: "Story",
         price: 2,
@@ -164,7 +164,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "pr-media",
+        id: "S0106",
         title: "Skill · Xuất Hiện Truyền Thông",
         tag: "PR",
         price: 2,
@@ -188,7 +188,7 @@ const seed: CategorySeed[] = [
     subtitle: "Kỹ năng dựng chân dung đời thực — bán hàng bằng sự tin cậy",
     products: [
       {
-        id: "gym",
+        id: "S0201",
         title: "Skill · Selfie Chuyển Động",
         tag: "Video Pack",
         price: 2,
@@ -207,7 +207,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "outfit",
+        id: "S0202",
         title: "Skill · Phối Đồ Bán Hàng",
         tag: "Style",
         price: 2,
@@ -223,7 +223,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "street",
+        id: "S0203",
         title: "Skill · Street Storytelling",
         tag: "Story",
         price: 2,
@@ -239,7 +239,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "studio",
+        id: "S0204",
         title: "Skill · Chân Dung Cao Cấp",
         tag: "Luxury",
         price: 2,
@@ -255,7 +255,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "travel",
+        id: "S0205",
         title: "Skill · Lifestyle Du Lịch",
         tag: "Journey",
         price: 2,
@@ -271,7 +271,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "daily",
+        id: "S0206",
         title: "Skill · Nhật Ký Đời Thường",
         tag: "Daily",
         price: 2,
@@ -294,7 +294,7 @@ const seed: CategorySeed[] = [
     subtitle: "Kỹ năng dựng video quảng cáo — từ kịch bản đến TVC chuẩn thương hiệu",
     products: [
       {
-        id: "tvc-brand",
+        id: "S0301",
         title: "Skill · TVC Thương Hiệu",
         tag: "Cinematic",
         price: 2,
@@ -313,7 +313,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "script",
+        id: "S0302",
         title: "Skill · Kịch Bản 30 Giây",
         tag: "Script",
         price: 2,
@@ -329,7 +329,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "reels",
+        id: "S0303",
         title: "Skill · Reels Chuyển Cảnh",
         tag: "Reels",
         price: 2,
@@ -345,7 +345,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "unbox",
+        id: "S0304",
         title: "Skill · Video Review Sản Phẩm",
         tag: "Review",
         price: 2,
@@ -361,7 +361,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "livestream",
+        id: "S0305",
         title: "Skill · Livestream Bán Hàng",
         tag: "Live",
         price: 2,
@@ -378,7 +378,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "voice",
+        id: "S0306",
         title: "Skill · Giọng Đọc & Lồng Tiếng",
         tag: "Audio",
         price: 2,
@@ -401,7 +401,7 @@ const seed: CategorySeed[] = [
     subtitle: "Bộ kỹ năng dựng landing page chốt đơn — thiết kế, copy và chuyển đổi",
     products: [
       {
-        id: "hero",
+        id: "S0401",
         title: "Skill · Landing Chốt Đơn",
         tag: "Funnel",
         price: 2,
@@ -418,7 +418,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "copy",
+        id: "S0402",
         title: "Skill · Copywriting Bán Hàng",
         tag: "Copy",
         price: 2,
@@ -434,7 +434,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "offer",
+        id: "S0403",
         title: "Skill · Thiết Kế Offer",
         tag: "Offer",
         price: 2,
@@ -450,7 +450,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "checkout",
+        id: "S0404",
         title: "Skill · Tối Ưu Thanh Toán",
         tag: "Checkout",
         price: 2,
@@ -466,7 +466,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "upsell",
+        id: "S0405",
         title: "Skill · Upsell & Combo",
         tag: "Growth",
         price: 2,
@@ -482,7 +482,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "trust",
+        id: "S0406",
         title: "Skill · Chứng Thực Khách Hàng",
         tag: "Trust",
         price: 2,
@@ -505,7 +505,7 @@ const seed: CategorySeed[] = [
     subtitle: "Kỹ năng đóng gói tri thức thành khóa học và bán hàng tự động",
     products: [
       {
-        id: "curriculum",
+        id: "S0501",
         title: "Skill · Thiết Kế Giáo Trình",
         tag: "Blueprint",
         price: 2,
@@ -521,7 +521,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "slide",
+        id: "S0502",
         title: "Skill · Slide Giảng Dạy",
         tag: "Deck",
         price: 2,
@@ -537,7 +537,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "record",
+        id: "S0503",
         title: "Skill · Quay Bài Giảng",
         tag: "Studio",
         price: 2,
@@ -553,7 +553,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "community",
+        id: "S0504",
         title: "Skill · Vận Hành Cộng Đồng",
         tag: "Community",
         price: 2,
@@ -569,7 +569,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "webinar",
+        id: "S0505",
         title: "Skill · Webinar Chốt Học Viên",
         tag: "Webinar",
         price: 2,
@@ -585,7 +585,7 @@ const seed: CategorySeed[] = [
         ],
       },
       {
-        id: "affiliate",
+        id: "S0506",
         title: "Skill · Hệ Thống Affiliate",
         tag: "Scale",
         price: 2,

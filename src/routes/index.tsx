@@ -5,6 +5,7 @@ import { categories, type Category, type Product } from "@/lib/products";
 import { useCart } from "@/lib/cart";
 import { ProductArt } from "@/components/ProductArt";
 import { Reveal } from "@/components/Reveal";
+import { AuthStatus } from "@/components/AuthStatus";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -46,10 +47,11 @@ function Landing() {
           <div className="flex shrink-0 items-center gap-3 text-sm">
             <a
               href="#gian-1"
-              className="hidden rounded-full px-3 py-2 font-medium text-muted-foreground transition hover:text-foreground sm:inline"
+              className="hidden rounded-full px-3 py-2 font-semibold text-foreground transition hover:text-primary sm:inline"
             >
               Vào sàn Skill
             </a>
+            <AuthStatus />
             <Link
               to="/checkout"
               className="relative flex items-center gap-2 rounded-full bg-foreground px-4 py-2 font-medium text-background transition hover:opacity-90"
@@ -72,7 +74,7 @@ function Landing() {
             <a
               key={cat.id}
               href={`#gian-${idx + 1}`}
-              className="shrink-0 rounded-full border border-border/60 px-3 py-1.5 text-muted-foreground transition hover:border-primary/40 hover:text-primary"
+              className="shrink-0 rounded-full border border-border bg-card px-3 py-1.5 font-semibold text-foreground transition hover:border-primary hover:text-primary"
             >
               {cat.title.split("·")[1]?.trim() ?? cat.title}
             </a>
@@ -145,7 +147,7 @@ function Landing() {
 
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-8 text-xs text-muted-foreground sm:flex-row">
-          <p>© 2026 KOL AI Skill World · Uyên Linh</p>
+          <p>© 2026 KOL AI Skill World · Lan Linh</p>
           <p>Made with love · KOL AI System</p>
         </div>
       </footer>

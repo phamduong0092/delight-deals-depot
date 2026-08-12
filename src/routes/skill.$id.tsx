@@ -4,6 +4,7 @@ import { getProduct, getCategory, categories } from "@/lib/products";
 import { useCart } from "@/lib/cart";
 import { ProductArt } from "@/components/ProductArt";
 import { Reveal } from "@/components/Reveal";
+import { AuthStatus } from "@/components/AuthStatus";
 
 export const Route = createFileRoute("/skill/$id")({
   head: ({ params }) => {
@@ -63,12 +64,15 @@ function SkillDetail() {
               KOL AI <span className="text-gradient">Skill World</span>
             </span>
           </Link>
-          <Link
-            to="/checkout"
-            className="rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition hover:opacity-90"
-          >
-            {cart.count} skill · ${cart.total}
-          </Link>
+          <div className="flex items-center gap-3">
+            <AuthStatus />
+            <Link
+              to="/checkout"
+              className="rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition hover:opacity-90"
+            >
+              {cart.count} skill · ${cart.total}
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -189,27 +193,39 @@ function SkillDetail() {
           <section className="mt-16">
             <h2 className="text-2xl">Skill cùng sảnh</h2>
             <div className="-mx-6 mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 md:grid-cols-6">
-              {related.map((p) => (
-                <Link
-                  key={p.id}
-                  to="/skill/$id"
-                  params={{ id: p.id }}
-                  className="group w-[180px] shrink-0 snap-start overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:shadow-brand sm:w-auto"
-                >
-                  <div className="relative aspect-[3/4] overflow-hidden bg-muted">
-                    <ProductArt
-                      product={p}
-                      className="transition duration-700 group-hover:scale-105"
-                    />
-                    <span className="absolute right-2 top-2 rounded-full bg-brand-gradient px-2 py-0.5 text-[10px] font-bold text-primary-foreground shadow-brand">
-                      ${p.price}
-                    </span>
-                  </div>
-                  <div className="p-3">
-                    <h3 className="truncate font-display text-sm leading-tight">{p.title}</h3>
-                  </div>
-                </Link>
-              ))}
+              {related.map((p) => {
+                const relatedAvailable = p.available === true;
+                return (
+                  <Link
+                    key={p.id}
+                    to="/skill/$id"
+                    params={{ id: p.id }}
+                    className="group w-[180px] shrink-0 snap-start overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:shadow-brand sm:w-auto"
+                  >
+                    <div className="relative aspect-[3/4] overflow-hidden bg-muted">
+                      <ProductArt
+                        product={p}
+                        className={`transition duration-700 group-hover:scale-105 ${
+                          !relatedAvailable ? "opacity-40 grayscale" : ""
+                        }`}
+                      />
+                      {!relatedAvailable && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-[1px]">
+                          <span className="rounded-full border border-border bg-background/90 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-muted-foreground shadow-card">
+                            Coming Soon
+                          </span>
+                        </div>
+                      )}
+                      <span className="absolute right-2 top-2 rounded-full bg-brand-gradient px-2 py-0.5 text-[10px] font-bold text-primary-foreground shadow-brand">
+                        ${p.price}
+                      </span>
+                    </div>
+                    <div className="p-3">
+                      <h3 className="truncate font-display text-sm leading-tight">{p.title}</h3>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </section>
         )}

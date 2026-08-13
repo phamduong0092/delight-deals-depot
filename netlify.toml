@@ -1,0 +1,7 @@
+[build]
+  # VITE_SUPABASE_ANON_KEY và VITE_SUPABASE_URL cố ý công khai (bundle vào code
+  # gửi tới trình duyệt là bình thường với Supabase — publishable key được thiết
+  # kế để lộ ra ngoài). Bỏ qua 2 biến này khi Netlify quét bí mật, tránh báo nhầm.
+  # Các biến nhạy cảm thật (SUPABASE_SERVICE_ROLE_KEY, ADMIN_PASSWORD) không nằm
+  # trong danh sách này — chúng không được prefix VITE_ nên không lọt vào bundle.
+  SECRETS_SCAN_OMIT_KEYS = "VITE_SUPABASE_ANON_KEY,VITE_SUPABASE_URL"

@@ -15,6 +15,7 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as DangKyRouteImport } from './routes/dang-ky'
 import { Route as DangNhapRouteImport } from './routes/dang-nhap'
 import { Route as DoiMatKhauRouteImport } from './routes/doi-mat-khau'
+import { Route as HuongDanSkillRouteImport } from './routes/huong-dan-skill'
 import { Route as TaiSkillRouteImport } from './routes/tai-skill'
 import { Route as OrderIdRouteImport } from './routes/order.$id'
 import { Route as SkillIdRouteImport } from './routes/skill.$id'
@@ -49,6 +50,11 @@ const DoiMatKhauRoute = DoiMatKhauRouteImport.update({
   path: '/doi-mat-khau',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HuongDanSkillRoute = HuongDanSkillRouteImport.update({
+  id: '/huong-dan-skill',
+  path: '/huong-dan-skill',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TaiSkillRoute = TaiSkillRouteImport.update({
   id: '/tai-skill',
   path: '/tai-skill',
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/dang-ky': typeof DangKyRoute
   '/dang-nhap': typeof DangNhapRoute
   '/doi-mat-khau': typeof DoiMatKhauRoute
+  '/huong-dan-skill': typeof HuongDanSkillRoute
   '/tai-skill': typeof TaiSkillRoute
   '/order/$id': typeof OrderIdRoute
   '/skill/$id': typeof SkillIdRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/dang-ky': typeof DangKyRoute
   '/dang-nhap': typeof DangNhapRoute
   '/doi-mat-khau': typeof DoiMatKhauRoute
+  '/huong-dan-skill': typeof HuongDanSkillRoute
   '/tai-skill': typeof TaiSkillRoute
   '/order/$id': typeof OrderIdRoute
   '/skill/$id': typeof SkillIdRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/dang-ky': typeof DangKyRoute
   '/dang-nhap': typeof DangNhapRoute
   '/doi-mat-khau': typeof DoiMatKhauRoute
+  '/huong-dan-skill': typeof HuongDanSkillRoute
   '/tai-skill': typeof TaiSkillRoute
   '/order/$id': typeof OrderIdRoute
   '/skill/$id': typeof SkillIdRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/dang-ky'
     | '/dang-nhap'
     | '/doi-mat-khau'
+    | '/huong-dan-skill'
     | '/tai-skill'
     | '/order/$id'
     | '/skill/$id'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/dang-ky'
     | '/dang-nhap'
     | '/doi-mat-khau'
+    | '/huong-dan-skill'
     | '/tai-skill'
     | '/order/$id'
     | '/skill/$id'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/dang-ky'
     | '/dang-nhap'
     | '/doi-mat-khau'
+    | '/huong-dan-skill'
     | '/tai-skill'
     | '/order/$id'
     | '/skill/$id'
@@ -142,6 +154,7 @@ export interface RootRouteChildren {
   DangKyRoute: typeof DangKyRoute
   DangNhapRoute: typeof DangNhapRoute
   DoiMatKhauRoute: typeof DoiMatKhauRoute
+  HuongDanSkillRoute: typeof HuongDanSkillRoute
   TaiSkillRoute: typeof TaiSkillRoute
   OrderIdRoute: typeof OrderIdRoute
   SkillIdRoute: typeof SkillIdRoute
@@ -191,6 +204,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DoiMatKhauRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/huong-dan-skill': {
+      id: '/huong-dan-skill'
+      path: '/huong-dan-skill'
+      fullPath: '/huong-dan-skill'
+      preLoaderRoute: typeof HuongDanSkillRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tai-skill': {
       id: '/tai-skill'
       path: '/tai-skill'
@@ -222,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   DangKyRoute: DangKyRoute,
   DangNhapRoute: DangNhapRoute,
   DoiMatKhauRoute: DoiMatKhauRoute,
+  HuongDanSkillRoute: HuongDanSkillRoute,
   TaiSkillRoute: TaiSkillRoute,
   OrderIdRoute: OrderIdRoute,
   SkillIdRoute: SkillIdRoute,

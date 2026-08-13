@@ -124,7 +124,15 @@ function Checkout() {
               KOL AI <span className="text-gradient">Skill World</span>
             </span>
           </Link>
-          <span className="text-sm text-muted-foreground">Thanh toán</span>
+          <div className="flex items-center gap-3">
+            <span className="hidden text-sm text-muted-foreground sm:inline">Thanh toán</span>
+            <Link
+              to="/"
+              className="rounded-full border border-border px-4 py-2 text-sm font-medium transition hover:bg-accent"
+            >
+              ← Trang chủ
+            </Link>
+          </div>
         </div>
       </header>
 

@@ -3,6 +3,7 @@ import { ShoppingCart, Sparkles } from "lucide-react";
 import sanh1Graduation from "@/assets/sanh-1/graduation.webp";
 import { categories, type Category, type Product } from "@/lib/products";
 import { useCart } from "@/lib/cart";
+import { useMergedProduct } from "@/lib/productContent";
 import { ProductArt } from "@/components/ProductArt";
 import { Reveal } from "@/components/Reveal";
 import { AuthStatus } from "@/components/AuthStatus";
@@ -14,12 +15,12 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Skill World by KOL AI — Sàn giao dịch kỹ năng bán hàng chuyên nghiệp. 5 sảnh Skill: Thương Hiệu, Hình Ảnh Cá Nhân, Video & TVC, Trang Bán Hàng, Khóa Học. Mỗi Skill Pack chỉ $2.",
+          "Skill World by KOL AI — Sàn giao dịch kỹ năng bán hàng chuyên nghiệp. 6 sảnh Skill: Sẵn Sàng Dùng Ngay, Thương Hiệu, Hình Ảnh Cá Nhân, Video & TVC, Trang Bán Hàng, Khóa Học. Mỗi Skill Pack chỉ $2.",
       },
       { property: "og:title", content: "KOL AI Skill World — Sàn Skill bán hàng $2" },
       {
         property: "og:description",
-        content: "Sàn Skill bán hàng chuyên nghiệp. 5 sảnh Skill đẳng cấp. $2 mỗi Skill Pack.",
+        content: "Sàn Skill bán hàng chuyên nghiệp. 6 sảnh Skill đẳng cấp. $2 mỗi Skill Pack.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: sanh1Graduation },
@@ -86,7 +87,7 @@ function Landing() {
       <section className="mx-auto max-w-6xl px-6 pb-10 pt-14 text-center">
         <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-primary">
           <Sparkles className="sparkle-twinkle h-3.5 w-3.5" />
-          Sàn giao dịch Skill · 5 Sảnh đẳng cấp · 30 Skill Pack
+          Sàn giao dịch Skill · 6 Sảnh đẳng cấp · 36 Skill Pack
         </span>
         <h1 className="mx-auto mt-6 max-w-3xl text-4xl leading-tight sm:text-5xl md:text-6xl">
           Thế giới <em className="text-gradient not-italic">Skill bán hàng</em> chuyên nghiệp.
@@ -97,7 +98,7 @@ function Landing() {
         </p>
       </section>
 
-      {/* 5 Sảnh Skill */}
+      {/* 6 Sảnh Skill */}
       <div className="mx-auto max-w-6xl space-y-14 px-6 pb-24">
         {categories.map((cat, idx) => (
           <CategoryRow key={cat.id} anchorId={`gian-${idx + 1}`} category={cat} />
@@ -202,7 +203,8 @@ function CategoryRow({ anchorId, category }: { anchorId: string; category: Categ
   );
 }
 
-function ProductCard({ product }: { product: Product }) {
+function ProductCard({ product: rawProduct }: { product: Product }) {
+  const product = useMergedProduct(rawProduct);
   const cart = useCart();
   const inCart = cart.has(product.id);
   const available = product.available === true;
@@ -211,16 +213,16 @@ function ProductCard({ product }: { product: Product }) {
     <article className="group w-full overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:shadow-brand">
       <Link to="/skill/$id" params={{ id: product.id }} className="block">
         <div className="relative aspect-[3/4] overflow-hidden bg-muted">
-          <ProductArt
-            product={product}
-            className={`transition duration-700 group-hover:scale-105 ${!available ? "opacity-40 grayscale" : ""}`}
-          />
+          <ProductArt product={product} className="transition duration-700 group-hover:scale-105" />
           {!available && (
-            <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-[1px]">
-              <span className="rounded-full border border-border bg-background/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground shadow-card">
-                Coming Soon
-              </span>
-            </div>
+            <>
+              <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/20" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="rounded-full border border-white/30 bg-black/45 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-card backdrop-blur-sm">
+                  Coming Soon
+                </span>
+              </div>
+            </>
           )}
           {product.bestseller && available && (
             <span className="absolute left-2 top-2 rounded-full bg-wood-gradient px-2 py-0.5 text-[10px] font-medium text-white shadow-wood backdrop-blur">

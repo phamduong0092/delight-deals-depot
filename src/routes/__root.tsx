@@ -13,6 +13,10 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CartProvider } from "../lib/cart";
 import { AuthProvider } from "../lib/auth";
+import { ProductImagesProvider } from "../lib/productImages";
+import { ProductContentProvider } from "../lib/productContent";
+import { SiteBannerProvider } from "../lib/siteBanner";
+import { PromoBanner } from "../components/PromoBanner";
 
 function NotFoundComponent() {
   return (
@@ -126,8 +130,15 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <CartProvider>
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
+          <ProductImagesProvider>
+            <ProductContentProvider>
+              <SiteBannerProvider>
+                <PromoBanner />
+                {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+                <Outlet />
+              </SiteBannerProvider>
+            </ProductContentProvider>
+          </ProductImagesProvider>
         </CartProvider>
       </AuthProvider>
     </QueryClientProvider>

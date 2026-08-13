@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Check, ChevronRight, ShieldCheck, Zap } from "lucide-react";
 import { getProduct, getCategory, categories } from "@/lib/products";
 import { useCart } from "@/lib/cart";
+import { useProductContent, mergeProductContent } from "@/lib/productContent";
 import { ProductArt } from "@/components/ProductArt";
 import { Reveal } from "@/components/Reveal";
 import { AuthStatus } from "@/components/AuthStatus";
@@ -37,12 +38,14 @@ function NotFoundSkill() {
 
 function SkillDetail() {
   const { id } = Route.useParams();
-  const product = getProduct(id);
+  const rawProduct = getProduct(id);
   const cart = useCart();
   const navigate = useNavigate();
+  const content = useProductContent();
 
-  if (!product) return <NotFoundSkill />;
+  if (!rawProduct) return <NotFoundSkill />;
 
+  const product = mergeProductContent(rawProduct, content[rawProduct.id]);
   const category = getCategory(product.categoryId);
   const inCart = cart.has(product.id);
   const available = product.available === true;
@@ -65,6 +68,12 @@ function SkillDetail() {
             </span>
           </Link>
           <div className="flex items-center gap-3">
+            <Link
+              to="/"
+              className="hidden rounded-full border border-border px-4 py-2 text-sm font-medium transition hover:bg-accent sm:inline-block"
+            >
+              ← Trang chủ
+            </Link>
             <AuthStatus />
             <Link
               to="/checkout"
@@ -100,17 +109,16 @@ function SkillDetail() {
         <div className="grid gap-10 lg:grid-cols-2">
           <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-card">
             <div className="relative aspect-square">
-              <ProductArt
-                product={product}
-                iconClassName="h-20 w-20"
-                className={!available ? "opacity-40 grayscale" : undefined}
-              />
+              <ProductArt product={product} iconClassName="h-20 w-20" />
               {!available && (
-                <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-[1px]">
-                  <span className="rounded-full border border-border bg-background/90 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground shadow-card">
-                    Coming Soon
-                  </span>
-                </div>
+                <>
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/20" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="rounded-full border border-white/30 bg-black/45 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-card backdrop-blur-sm">
+                      Coming Soon
+                    </span>
+                  </div>
+                </>
               )}
               {product.bestseller && available && (
                 <span className="absolute left-4 top-4 rounded-full bg-wood-gradient px-3 py-1 text-xs font-medium text-white shadow-wood">
@@ -193,7 +201,8 @@ function SkillDetail() {
           <section className="mt-16">
             <h2 className="text-2xl">Skill cùng sảnh</h2>
             <div className="-mx-6 mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 md:grid-cols-6">
-              {related.map((p) => {
+              {related.map((rawRelated) => {
+                const p = mergeProductContent(rawRelated, content[rawRelated.id]);
                 const relatedAvailable = p.available === true;
                 return (
                   <Link
@@ -205,16 +214,17 @@ function SkillDetail() {
                     <div className="relative aspect-[3/4] overflow-hidden bg-muted">
                       <ProductArt
                         product={p}
-                        className={`transition duration-700 group-hover:scale-105 ${
-                          !relatedAvailable ? "opacity-40 grayscale" : ""
-                        }`}
+                        className="transition duration-700 group-hover:scale-105"
                       />
                       {!relatedAvailable && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-[1px]">
-                          <span className="rounded-full border border-border bg-background/90 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-muted-foreground shadow-card">
-                            Coming Soon
-                          </span>
-                        </div>
+                        <>
+                          <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/20" />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="rounded-full border border-white/30 bg-black/45 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.15em] text-white shadow-card backdrop-blur-sm">
+                              Coming Soon
+                            </span>
+                          </div>
+                        </>
                       )}
                       <span className="absolute right-2 top-2 rounded-full bg-brand-gradient px-2 py-0.5 text-[10px] font-bold text-primary-foreground shadow-brand">
                         ${p.price}

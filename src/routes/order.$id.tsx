@@ -54,6 +54,23 @@ function OrderConfirmation() {
 
   return (
     <main className="min-h-screen bg-soft-gradient">
+      <header className="sticky top-0 z-30 border-b border-border/60 bg-background/80 backdrop-blur-md">
+        <div className="mx-auto flex max-w-2xl items-center justify-between px-6 py-4">
+          <Link to="/" className="flex min-w-0 items-center gap-2">
+            <div className="h-8 w-8 shrink-0 rounded-lg bg-brand-gradient shadow-brand" />
+            <span className="truncate font-display text-2xl">
+              KOL AI <span className="text-gradient">Skill World</span>
+            </span>
+          </Link>
+          <Link
+            to="/"
+            className="rounded-full border border-border px-4 py-2 text-sm font-medium transition hover:bg-accent"
+          >
+            ← Trang chủ
+          </Link>
+        </div>
+      </header>
+
       <div className="mx-auto max-w-2xl px-6 py-16">
         <div className="text-center">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-gradient shadow-brand">
@@ -157,6 +174,13 @@ function OrderConfirmation() {
             <p className="mt-2 text-center text-xs text-muted-foreground">
               Gửi kèm ảnh chụp màn hình chuyển khoản + mã đơn hàng{" "}
               <span className="font-mono">{order.id}</span> để được kích hoạt Skill.
+            </p>
+            <p className="mt-4 text-center text-xs text-muted-foreground">
+              Sau khi được xác nhận, đăng nhập và vào{" "}
+              <Link to="/tai-skill" className="font-medium text-primary hover:underline">
+                trang Tải Skill
+              </Link>{" "}
+              rồi nhập mã đơn hàng này để tải file.
             </p>
           </div>
         )}

@@ -16,19 +16,24 @@ import {
   Mic,
   Mic2,
   Monitor,
+  Music,
   Newspaper,
   PartyPopper,
   PenTool,
   Palmtree,
   Presentation,
+  Package,
   Radio,
   Rocket,
   Shirt,
+  Sparkles,
   Star,
   TrendingUp,
   Trophy,
+  Type,
   Users,
   Video,
+  Wand2,
 } from "lucide-react";
 import kolGym from "@/assets/kol-gym.asset.json";
 import kolGymVideo from "@/assets/kol-gym-video.mp4.asset.json";
@@ -71,6 +76,121 @@ type CategorySeed = {
 };
 
 const seed: CategorySeed[] = [
+  {
+    id: "ready",
+    title: "Sảnh 0 · Skill Sẵn Sàng Dùng Ngay",
+    subtitle: "Đã kích hoạt thật — mua xong dùng được liền, không cần chờ đợi",
+    products: [
+      {
+        id: "S0001",
+        title: "Skill · TVC Thương Hiệu",
+        tag: "Cinematic",
+        price: 2,
+        icon: Film,
+        available: true,
+        bestseller: true,
+        shortDesc:
+          "AI Skill thật: từ 1 ảnh tạo Storyboard điện ảnh nhiều góc quay + 1 prompt video hoàn chỉnh.",
+        longDesc:
+          "Đây là Skill Pack đầy đủ — không phải hướng dẫn suông, mà là một AI Skill thật, cài thẳng vào Claude hoặc ChatGPT để dùng ngay. Từ một ảnh tham chiếu, Skill tự dựng kịch bản điện ảnh nhiều nhịp hành động, tạo storyboard nhiều góc quay khóa chặt nhận diện khuôn mặt và trang phục, rồi viết sẵn một prompt video tổng hợp tối ưu cho Omni hoặc Seedance. Chế độ Multishot còn tạo 9 ảnh góc quay khác nhau từ cùng một khoảnh khắc để làm nội dung đăng bài.",
+        features: [
+          "AI Skill thật — cài vào Claude/ChatGPT dùng ngay, không chỉ là hướng dẫn",
+          "Chế độ Storyboard: kịch bản điện ảnh nhiều góc quay + 1 prompt video Omni/Seedance",
+          "Chế độ Multishot: 9 ảnh góc quay khác nhau từ cùng 1 khoảnh khắc",
+          "Face Lock & Outfit Lock — giữ đúng nhân vật, trang phục xuyên suốt mọi ảnh",
+        ],
+      },
+      {
+        id: "S0002",
+        title: "Skill · Hoán Đổi Nhân Vật Thương Hiệu",
+        tag: "Face Swap",
+        price: 2,
+        icon: Wand2,
+        available: true,
+        bestseller: true,
+        shortDesc:
+          "AI Skill thật: biến bất kỳ ảnh tham chiếu nào thành ảnh có nhân vật thương hiệu cố định, giữ nguyên bối cảnh.",
+        longDesc:
+          "Skill Pack thật — cài vào Claude hoặc ChatGPT (có công cụ tạo ảnh) để dùng ngay. Gửi 1 hoặc nhiều ảnh tham chiếu bất kỳ (dáng, bối cảnh, ánh sáng tự chọn), Skill khóa gương mặt và trang phục của nhân vật thương hiệu cố định vào đúng khung cảnh đó — tạo hàng loạt ảnh nhất quán mà không cần chụp lại.",
+        features: [
+          "AI Skill thật — dùng ngay trên Claude hoặc ChatGPT, không chỉ là hướng dẫn",
+          "Gửi ảnh tham chiếu bất kỳ, giữ nguyên bối cảnh — chỉ đổi nhân vật",
+          "Khóa gương mặt & trang phục thương hiệu xuyên suốt mọi ảnh",
+          "Tạo hàng loạt ảnh nhất quán từ nhiều ảnh tham chiếu cùng lúc",
+        ],
+      },
+      {
+        id: "S0003",
+        title: "Skill · Bộ Poster Sản Phẩm AI",
+        tag: "Product",
+        price: 2,
+        icon: Package,
+        available: true,
+        shortDesc:
+          "AI Skill thật: từ 1 ảnh sản phẩm tạo ngay 10 poster quảng cáo chuyên nghiệp, đa phong cách.",
+        longDesc:
+          "Skill Pack thật — cài vào Claude hoặc ChatGPT (có công cụ tạo ảnh) để dùng ngay. Gửi 1 ảnh sản phẩm, Skill phân tích như một art director quảng cáo thật rồi tạo ra 10 poster khác nhau về bối cảnh, ánh sáng, bố cục — luôn giữ đúng hình dạng, màu sắc, logo, chữ trên bao bì gốc, không tự bịa thêm giá hay khuyến mãi.",
+        features: [
+          "AI Skill thật — dùng ngay trên Claude hoặc ChatGPT, không chỉ là hướng dẫn",
+          "10 poster khác nhau từ 1 ảnh sản phẩm duy nhất",
+          "Giữ nguyên logo, chữ, bao bì gốc — không bịa thêm nội dung",
+          "Phân tích như art director quảng cáo chuyên nghiệp trước khi tạo",
+        ],
+      },
+      {
+        id: "S0004",
+        title: "Skill · Ảnh KOL Uyên Linh",
+        tag: "KOL",
+        price: 2,
+        icon: Sparkles,
+        available: true,
+        shortDesc:
+          "AI Skill thật: tạo poster, banner, ảnh bán hàng mượn hình ảnh KOL Uyên Linh có sẵn.",
+        longDesc:
+          "Skill Pack thật — cài vào Claude hoặc ChatGPT để dùng ngay. Nhập chủ đề (sản phẩm, dịch vụ, khóa học...), Skill tự tạo poster, banner, thumbnail theo đúng bộ nhận diện hình ảnh của KOL Uyên Linh — nhân vật, ánh sáng, bố cục, tiêu đề đồng nhất, sẵn sàng dùng cho trang bán hàng hoặc bài đăng mạng xã hội. Phù hợp khi bạn muốn mượn hình ảnh 1 KOL có sẵn thay vì tự chụp.",
+        features: [
+          "AI Skill thật — dùng ngay trên Claude hoặc ChatGPT, không chỉ là hướng dẫn",
+          "Mượn hình ảnh & nhận diện KOL Uyên Linh có sẵn, không cần tự chụp",
+          "Tạo poster, banner, thumbnail đồng bộ 1 bộ nhận diện",
+          "Định hướng luôn nội dung + hình ảnh cho trang bán hàng",
+        ],
+      },
+      {
+        id: "S0005",
+        title: "Skill · Overlay Chữ Ảnh Đăng Bài",
+        tag: "Social",
+        price: 2,
+        icon: Type,
+        available: true,
+        shortDesc:
+          "AI Skill thật: tự chèn tiêu đề + badge thương hiệu lên ảnh, chuẩn khung đăng Facebook/Instagram.",
+        longDesc:
+          "Skill Pack thật — chạy bằng code Python có sẵn trong gói (Skill tự viết headline, tự chèn chữ và badge lên ảnh). Cần môi trường chạy được code: Claude Code, hoặc ChatGPT có bật Code Interpreter (mục 'Advanced Data Analysis' — có sẵn trên gói ChatGPT Plus). Gửi 1 ảnh, Skill tự trích tiêu đề ngắn gọn, chèn chữ trắng đậm kèm 1 từ khóa tô neon vàng-chanh và badge thương hiệu ở góc dưới phải, xuất đúng khung 1080x1350 chuẩn feed.",
+        features: [
+          "AI Skill thật — chạy bằng code có sẵn trong gói, không chỉ là hướng dẫn",
+          "Cần Claude Code hoặc ChatGPT có bật Code Interpreter để chạy",
+          "Tự trích tiêu đề, không cần tự viết chữ",
+          "Xuất đúng khung 1080x1350 chuẩn Facebook/Instagram feed",
+        ],
+      },
+      {
+        id: "S0006",
+        title: "Skill · Sáng Tác Nhạc AI",
+        tag: "Music",
+        price: 2,
+        icon: Music,
+        shortDesc: "Kỹ năng tạo nhạc bằng AI ngay trên web, nghe thử kết quả trước khi tải.",
+        longDesc:
+          "Đang phát triển — nhập lời hoặc mood mong muốn, AI tự sáng tác một bản nhạc hoàn chỉnh, nghe và tải trực tiếp ngay trên web, không cần tự vào ứng dụng nhạc AI riêng.",
+        features: [
+          "Nhập lời hoặc mood, AI tự sáng tác nhạc",
+          "Nghe thử kết quả ngay trên web trước khi tải",
+          "Không cần tự vào ứng dụng nhạc AI riêng",
+          "Sắp ra mắt",
+        ],
+      },
+    ],
+  },
   {
     id: "poster",
     title: "Sảnh I · Skill Thương Hiệu Cá Nhân",
@@ -295,21 +415,18 @@ const seed: CategorySeed[] = [
     products: [
       {
         id: "S0301",
-        title: "Skill · TVC Thương Hiệu",
-        tag: "Cinematic",
+        title: "Skill · Video Sản Phẩm AI",
+        tag: "AI Video",
         price: 2,
-        icon: Film,
-        available: true,
-        bestseller: true,
-        shortDesc:
-          "AI Skill thật: từ 1 ảnh tạo Storyboard điện ảnh nhiều góc quay + 1 prompt video hoàn chỉnh.",
+        icon: Video,
+        shortDesc: "Kỹ năng biến ảnh sản phẩm tĩnh thành video chuyển động ngắn bằng AI.",
         longDesc:
-          "Đây là Skill Pack đầy đủ — không phải hướng dẫn suông, mà là một AI Skill thật, cài thẳng vào Claude hoặc ChatGPT để dùng ngay. Từ một ảnh tham chiếu, Skill tự dựng kịch bản điện ảnh nhiều nhịp hành động, tạo storyboard nhiều góc quay khóa chặt nhận diện khuôn mặt và trang phục, rồi viết sẵn một prompt video tổng hợp tối ưu cho Omni hoặc Seedance. Chế độ Multishot còn tạo 9 ảnh góc quay khác nhau từ cùng một khoảnh khắc để làm nội dung đăng bài.",
+          "Skill Pack hướng dẫn quy trình biến 1 ảnh sản phẩm tĩnh thành đoạn video chuyển động ngắn, giữ đúng hình dạng và màu sắc sản phẩm — phù hợp đăng quảng cáo hoặc sàn thương mại điện tử.",
         features: [
-          "AI Skill thật — cài vào Claude/ChatGPT dùng ngay, không chỉ là hướng dẫn",
-          "Chế độ Storyboard: kịch bản điện ảnh nhiều góc quay + 1 prompt video Omni/Seedance",
-          "Chế độ Multishot: 9 ảnh góc quay khác nhau từ cùng 1 khoảnh khắc",
-          "Face Lock & Outfit Lock — giữ đúng nhân vật, trang phục xuyên suốt mọi ảnh",
+          "Quy trình biến ảnh tĩnh thành video chuyển động",
+          "Giữ nguyên hình dạng, màu sắc sản phẩm gốc",
+          "Tối ưu cho quảng cáo và sàn TMĐT",
+          "Mẫu prompt video theo từng ngành hàng",
         ],
       },
       {
@@ -617,8 +734,9 @@ export const getProduct = (id: string) => allProducts.find((p) => p.id === id);
 
 export const getCategory = (id: string) => categories.find((c) => c.id === id);
 
-// Dải màu cam Hỏa → vàng gold → xanh Mộc, hài hòa xuyên suốt 5 sảnh.
+// Dải màu cam Hỏa → vàng gold → xanh Mộc, hài hòa xuyên suốt 6 sảnh.
 export const iconGradients: Record<string, string> = {
+  ready: "from-[oklch(0.64_0.13_152)] to-[oklch(0.80_0.11_155)]",
   poster: "from-[oklch(0.70_0.19_45)] to-[oklch(0.81_0.15_68)]",
   lifestyle: "from-[oklch(0.75_0.14_60)] to-[oklch(0.85_0.10_80)]",
   video: "from-[oklch(0.62_0.18_35)] to-[oklch(0.72_0.18_50)]",

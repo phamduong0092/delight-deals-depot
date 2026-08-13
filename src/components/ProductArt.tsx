@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Product } from "@/lib/products";
 import { iconGradients } from "@/lib/products";
+import { useProductImages } from "@/lib/productImages";
 import { cn } from "@/lib/utils";
 
 function GradientFallback({
@@ -43,12 +44,14 @@ export function ProductArt({
   autoPlay?: boolean;
 }) {
   const [mediaFailed, setMediaFailed] = useState(false);
+  const customImages = useProductImages();
+  const image = customImages[product.id] ?? product.image;
 
   if (!mediaFailed && product.video) {
     return (
       <video
         src={product.video}
-        poster={product.image}
+        poster={image}
         autoPlay={autoPlay}
         loop
         muted
@@ -59,10 +62,10 @@ export function ProductArt({
     );
   }
 
-  if (!mediaFailed && product.image) {
+  if (!mediaFailed && image) {
     return (
       <img
-        src={product.image}
+        src={image}
         alt={product.title}
         loading="lazy"
         onError={() => setMediaFailed(true)}

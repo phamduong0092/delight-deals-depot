@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import {
+  BookOpen,
   CheckCircle2,
   Clock3,
   Download,
@@ -172,6 +173,17 @@ function TaiSkillPage() {
             Làm mới
           </button>
         </div>
+
+        <Link
+          to="/huong-dan-skill"
+          className="mt-6 flex items-center justify-between gap-3 rounded-2xl border border-primary/20 bg-primary/5 px-5 py-4 transition hover:bg-primary/10"
+        >
+          <span className="flex items-center gap-2.5 text-sm font-medium">
+            <BookOpen className="h-4 w-4 shrink-0 text-primary" />
+            Chưa biết cách cài & dùng Skill? Xem hướng dẫn từng bước
+          </span>
+          <span className="shrink-0 text-sm font-semibold text-primary">Xem ngay →</span>
+        </Link>
 
         {fetching && <p className="mt-8 text-sm text-muted-foreground">Đang tải đơn hàng…</p>}
 

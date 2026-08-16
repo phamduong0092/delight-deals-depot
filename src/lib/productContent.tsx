@@ -11,6 +11,7 @@ type ProductContentRow = {
   features: string[] | null;
   available: boolean | null;
   video_url: string | null;
+  bestseller: boolean | null;
 };
 
 const ProductContentContext = createContext<Record<string, ProductContentRow>>({});
@@ -22,7 +23,9 @@ export function ProductContentProvider({ children }: { children: ReactNode }) {
     let cancelled = false;
     void supabase
       .from("product_content")
-      .select("product_id, title, tag, short_desc, long_desc, features, available, video_url")
+      .select(
+        "product_id, title, tag, short_desc, long_desc, features, available, video_url, bestseller",
+      )
       .then(({ data }) => {
         if (cancelled || !data) return;
         setContent(
@@ -46,10 +49,10 @@ export function useProductContent() {
 
 /**
  * Gộp sản phẩm gốc trong code với nội dung tùy chỉnh từ Supabase (nếu có) — text, mô tả,
- * tính năng và trạng thái "available" đều có thể sửa trực tiếp trên Supabase mà không cần
- * đổi code hay deploy lại. Giá bán vẫn luôn lấy từ code để đảm bảo khớp với giỏ hàng/thanh toán.
- * Hàm thuần (không phải hook) — dùng được cả trong nhánh điều kiện (ví dụ sau khi kiểm tra
- * sản phẩm có tồn tại hay không).
+ * tính năng, trạng thái "available" và nhãn "Bán chạy" đều có thể sửa trực tiếp trên Supabase
+ * mà không cần đổi code hay deploy lại. Giá bán vẫn luôn lấy từ code để đảm bảo khớp với
+ * giỏ hàng/thanh toán. Hàm thuần (không phải hook) — dùng được cả trong nhánh điều kiện
+ * (ví dụ sau khi kiểm tra sản phẩm có tồn tại hay không).
  */
 export function mergeProductContent(
   product: Product,
@@ -66,6 +69,7 @@ export function mergeProductContent(
     features:
       override.features && override.features.length > 0 ? override.features : product.features,
     available: override.available ?? product.available,
+    bestseller: override.bestseller ?? product.bestseller,
   };
 }
 

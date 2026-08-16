@@ -1,7 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { KeyRound, RefreshCw, ShieldCheck } from "lucide-react";
-import { listProfilesFn, resetPasswordFn, type AdminProfile } from "@/lib/admin-actions";
+import { Check, Copy, KeyRound, Link2, Plus, RefreshCw, ShieldCheck } from "lucide-react";
+import {
+  createAffiliateFn,
+  listAffiliatesFn,
+  listProfilesFn,
+  resetPasswordFn,
+  type AdminAffiliate,
+  type AdminProfile,
+} from "@/lib/admin-actions";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -24,6 +31,8 @@ function AdminPage() {
   const [adminPassword, setAdminPassword] = useState("");
   const [unlocked, setUnlocked] = useState(false);
   const [profiles, setProfiles] = useState<AdminProfile[] | null>(null);
+  const [affiliates, setAffiliates] = useState<AdminAffiliate[] | null>(null);
+  const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [loginError, setLoginError] = useState<string | null>(null);
   const [loadingList, setLoadingList] = useState(false);
 
@@ -33,17 +42,60 @@ function AdminPage() {
   const [resetMsg, setResetMsg] = useState<string | null>(null);
   const [resetErr, setResetErr] = useState<string | null>(null);
 
+  const [newCode, setNewCode] = useState("");
+  const [newName, setNewName] = useState("");
+  const [newContact, setNewContact] = useState("");
+  const [creating, setCreating] = useState(false);
+  const [createErr, setCreateErr] = useState<string | null>(null);
+
   const loadProfiles = async (pwd: string) => {
     setLoadingList(true);
     setLoginError(null);
     try {
-      const rows = await listProfilesFn({ data: { adminPassword: pwd } });
+      const [rows, affiliateRows] = await Promise.all([
+        listProfilesFn({ data: { adminPassword: pwd } }),
+        listAffiliatesFn({ data: { adminPassword: pwd } }),
+      ]);
       setProfiles(rows);
+      setAffiliates(affiliateRows);
       setUnlocked(true);
     } catch (e) {
       setLoginError(e instanceof Error ? e.message : "Sai mật khẩu quản trị.");
     } finally {
       setLoadingList(false);
+    }
+  };
+
+  const copyAffiliateLink = (code: string) => {
+    const link = `${window.location.origin}/?ref=${code}`;
+    void navigator.clipboard.writeText(link).then(() => {
+      setCopiedCode(code);
+      setTimeout(() => setCopiedCode((c) => (c === code ? null : c)), 2000);
+    });
+  };
+
+  const handleCreateAffiliate = async (e: FormEvent) => {
+    e.preventDefault();
+    setCreateErr(null);
+    setCreating(true);
+    try {
+      await createAffiliateFn({
+        data: {
+          adminPassword,
+          code: newCode,
+          name: newName,
+          contact: newContact.trim() || undefined,
+        },
+      });
+      setNewCode("");
+      setNewName("");
+      setNewContact("");
+      const affiliateRows = await listAffiliatesFn({ data: { adminPassword } });
+      setAffiliates(affiliateRows);
+    } catch (err) {
+      setCreateErr(err instanceof Error ? err.message : "Có lỗi xảy ra.");
+    } finally {
+      setCreating(false);
     }
   };
 
@@ -155,6 +207,99 @@ function AdminPage() {
           </form>
           {resetMsg && <p className="mt-3 text-sm text-wood">{resetMsg}</p>}
           {resetErr && <p className="mt-3 text-sm text-red-400">{resetErr}</p>}
+        </div>
+
+        <div className="mt-8 rounded-2xl border border-border bg-card p-6 shadow-card">
+          <h2 className="flex items-center gap-2 text-lg font-semibold">
+            <Link2 className="h-4 w-4 text-primary" />
+            Link giới thiệu (Affiliate)
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Thêm affiliate mới ngay tại đây — link giới thiệu sẽ tự tạo bên dưới, không cần mở
+            Supabase.
+          </p>
+          <form onSubmit={handleCreateAffiliate} className="mt-4 flex flex-wrap items-end gap-3">
+            <label className="text-sm">
+              Mã (code)
+              <input
+                value={newCode}
+                onChange={(e) => setNewCode(e.target.value)}
+                required
+                placeholder="LAN10"
+                className="mt-1.5 block w-32 rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm outline-none ring-primary/30 transition focus:ring-2"
+              />
+            </label>
+            <label className="text-sm">
+              Tên
+              <input
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                required
+                placeholder="Chị Lan"
+                className="mt-1.5 block rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm outline-none ring-primary/30 transition focus:ring-2"
+              />
+            </label>
+            <label className="text-sm">
+              Liên hệ (không bắt buộc)
+              <input
+                value={newContact}
+                onChange={(e) => setNewContact(e.target.value)}
+                placeholder="Zalo/SĐT"
+                className="mt-1.5 block rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm outline-none ring-primary/30 transition focus:ring-2"
+              />
+            </label>
+            <button
+              type="submit"
+              disabled={creating}
+              className="flex items-center gap-1.5 rounded-xl bg-brand-gradient px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition hover:scale-[1.02] disabled:pointer-events-none disabled:opacity-60"
+            >
+              <Plus className="h-4 w-4" />
+              {creating ? "Đang tạo…" : "Tạo affiliate"}
+            </button>
+          </form>
+          {createErr && <p className="mt-3 text-sm text-red-400">{createErr}</p>}
+          <div className="mt-4 space-y-2">
+            {(affiliates ?? []).map((a) => (
+              <div
+                key={a.code}
+                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-background/60 px-4 py-3"
+              >
+                <div className="min-w-0">
+                  <p className="font-medium">
+                    {a.name}{" "}
+                    <span className="font-mono text-xs text-muted-foreground">({a.code})</span>
+                    {!a.active && (
+                      <span className="ml-2 rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold uppercase text-muted-foreground">
+                        Tạm ngưng
+                      </span>
+                    )}
+                  </p>
+                  <p className="truncate font-mono text-xs text-muted-foreground">
+                    {typeof window !== "undefined" ? window.location.origin : ""}/?ref={a.code}
+                  </p>
+                </div>
+                <button
+                  onClick={() => copyAffiliateLink(a.code)}
+                  className="flex shrink-0 items-center gap-1.5 rounded-full border border-border px-3.5 py-2 text-xs font-medium transition hover:bg-accent"
+                >
+                  {copiedCode === a.code ? (
+                    <>
+                      <Check className="h-3.5 w-3.5 text-wood" /> Đã copy
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-3.5 w-3.5" /> Copy link
+                    </>
+                  )}
+                </button>
+              </div>
+            ))}
+            {(affiliates ?? []).length === 0 && (
+              <p className="py-4 text-center text-sm text-muted-foreground">
+                Chưa có affiliate nào.
+              </p>
+            )}
+          </div>
         </div>
 
         <div className="mt-8 overflow-x-auto rounded-2xl border border-border bg-card shadow-card">

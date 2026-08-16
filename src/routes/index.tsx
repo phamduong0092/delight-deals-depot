@@ -1,12 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ShoppingCart, Sparkles } from "lucide-react";
+import { Facebook, MessageCircleMore, ShoppingCart, Sparkles, Youtube } from "lucide-react";
 import sanh1Graduation from "@/assets/sanh-1/graduation.webp";
 import { categories, type Category, type Product } from "@/lib/products";
 import { useCart } from "@/lib/cart";
+import { FACEBOOK_PAGE_LINK, YOUTUBE_CHANNEL_LINK, ZALO_GROUP_LINK } from "@/lib/payment";
 import { useMergedProduct } from "@/lib/productContent";
 import { ProductArt } from "@/components/ProductArt";
 import { Reveal } from "@/components/Reveal";
 import { AuthStatus } from "@/components/AuthStatus";
+import { HomeVideoSection } from "@/components/HomeVideoSection";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -98,6 +100,8 @@ function Landing() {
         </p>
       </section>
 
+      <HomeVideoSection />
+
       {/* 6 Sảnh Skill */}
       <div className="mx-auto max-w-6xl space-y-14 px-6 pb-24">
         {categories.map((cat, idx) => (
@@ -147,8 +151,37 @@ function Landing() {
       </section>
 
       <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-8 text-xs text-muted-foreground sm:flex-row">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 text-xs text-muted-foreground sm:flex-row">
           <p>© 2026 KOL AI Skill World · Lan Linh</p>
+          <div className="flex items-center gap-3">
+            <a
+              href={FACEBOOK_PAGE_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Fanpage Facebook"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-border transition hover:border-primary hover:text-primary"
+            >
+              <Facebook className="h-4 w-4" />
+            </a>
+            <a
+              href={ZALO_GROUP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Nhóm Zalo"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-border transition hover:border-primary hover:text-primary"
+            >
+              <MessageCircleMore className="h-4 w-4" />
+            </a>
+            <a
+              href={YOUTUBE_CHANNEL_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Kênh YouTube"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-border transition hover:border-primary hover:text-primary"
+            >
+              <Youtube className="h-4 w-4" />
+            </a>
+          </div>
           <p>Made with love · KOL AI System</p>
         </div>
       </footer>

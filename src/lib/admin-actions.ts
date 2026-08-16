@@ -45,6 +45,54 @@ export const listProfilesFn = createServerFn({ method: "POST" })
     return (rows ?? []) as AdminProfile[];
   });
 
+export type AdminAffiliate = {
+  code: string;
+  name: string;
+  contact: string | null;
+  active: boolean;
+  created_at: string;
+};
+
+export const listAffiliatesFn = createServerFn({ method: "POST" })
+  .validator((data: { adminPassword: string }) => data)
+  .handler(async ({ data }) => {
+    assertAdmin(data.adminPassword);
+    const admin = getAdminClient();
+    const { data: rows, error } = await admin
+      .from("affiliates")
+      .select("code, name, contact, active, created_at")
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    return (rows ?? []) as AdminAffiliate[];
+  });
+
+export const createAffiliateFn = createServerFn({ method: "POST" })
+  .validator(
+    (data: { adminPassword: string; code: string; name: string; contact?: string }) => data,
+  )
+  .handler(async ({ data }) => {
+    assertAdmin(data.adminPassword);
+    const code = data.code.trim().toUpperCase();
+    const name = data.name.trim();
+    if (!code || !/^[A-Z0-9_-]+$/.test(code)) {
+      throw new Error("Mã affiliate chỉ được gồm chữ, số, gạch ngang/gạch dưới.");
+    }
+    if (!name) {
+      throw new Error("Vui lòng nhập tên affiliate.");
+    }
+    const admin = getAdminClient();
+    const { error } = await admin.from("affiliates").insert({
+      code,
+      name,
+      contact: data.contact?.trim() || null,
+    });
+    if (error) {
+      if (error.code === "23505") throw new Error(`Mã "${code}" đã tồn tại, chọn mã khác.`);
+      throw new Error(error.message);
+    }
+    return { ok: true };
+  });
+
 export const resetPasswordFn = createServerFn({ method: "POST" })
   .validator((data: { adminPassword: string; phone: string; newPassword: string }) => data)
   .handler(async ({ data }) => {

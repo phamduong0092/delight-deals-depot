@@ -1,8 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Check, ChevronRight, ShieldCheck, Zap } from "lucide-react";
+import { Check, ChevronRight, PlayCircle, ShieldCheck, Zap } from "lucide-react";
 import { getProduct, getCategory, categories } from "@/lib/products";
 import { useCart } from "@/lib/cart";
 import { useProductContent, mergeProductContent } from "@/lib/productContent";
+import { extractYoutubeId } from "@/lib/youtube";
 import { ProductArt } from "@/components/ProductArt";
 import { Reveal } from "@/components/Reveal";
 import { AuthStatus } from "@/components/AuthStatus";
@@ -49,6 +50,8 @@ function SkillDetail() {
   const category = getCategory(product.categoryId);
   const inCart = cart.has(product.id);
   const available = product.available === true;
+  const reviewVideoUrl = content[rawProduct.id]?.video_url;
+  const reviewVideoId = reviewVideoUrl ? extractYoutubeId(reviewVideoUrl) : null;
 
   const related = category ? category.products.filter((p) => p.id !== product.id).slice(0, 6) : [];
 
@@ -195,6 +198,29 @@ function SkillDetail() {
             <p className="mt-3 leading-relaxed text-muted-foreground">{product.longDesc}</p>
           </section>
         </Reveal>
+
+        {/* Video demo thực tế — chỉ hiện khi Skill có gắn link YouTube trong Supabase */}
+        {reviewVideoId && (
+          <Reveal>
+            <section className="mt-14 max-w-3xl">
+              <h2 className="flex items-center gap-2 text-2xl">
+                <PlayCircle className="h-5 w-5 text-primary" />
+                Xem demo thực tế
+              </h2>
+              <div className="mt-4 overflow-hidden rounded-3xl border border-border bg-card shadow-card">
+                <div className="aspect-video w-full">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${reviewVideoId}`}
+                    title={`Demo thực tế — ${product.title}`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="h-full w-full"
+                  />
+                </div>
+              </div>
+            </section>
+          </Reveal>
+        )}
 
         {/* Related */}
         {related.length > 0 && (

@@ -17,6 +17,8 @@ import { ProductImagesProvider } from "../lib/productImages";
 import { ProductContentProvider } from "../lib/productContent";
 import { SiteBannerProvider } from "../lib/siteBanner";
 import { PromoBanner } from "../components/PromoBanner";
+import { captureAffiliateRef } from "../lib/affiliateRef";
+import { HomeVideoProvider } from "../lib/homeVideo";
 
 function NotFoundComponent() {
   return (
@@ -141,6 +143,10 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  useEffect(() => {
+    captureAffiliateRef();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
@@ -148,9 +154,11 @@ function RootComponent() {
           <ProductImagesProvider>
             <ProductContentProvider>
               <SiteBannerProvider>
-                <PromoBanner />
-                {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-                <Outlet />
+                <HomeVideoProvider>
+                  <PromoBanner />
+                  {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+                  <Outlet />
+                </HomeVideoProvider>
               </SiteBannerProvider>
             </ProductContentProvider>
           </ProductImagesProvider>

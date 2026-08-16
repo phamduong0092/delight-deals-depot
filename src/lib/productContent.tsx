@@ -10,6 +10,7 @@ type ProductContentRow = {
   long_desc: string | null;
   features: string[] | null;
   available: boolean | null;
+  video_url: string | null;
 };
 
 const ProductContentContext = createContext<Record<string, ProductContentRow>>({});
@@ -21,7 +22,7 @@ export function ProductContentProvider({ children }: { children: ReactNode }) {
     let cancelled = false;
     void supabase
       .from("product_content")
-      .select("product_id, title, tag, short_desc, long_desc, features, available")
+      .select("product_id, title, tag, short_desc, long_desc, features, available, video_url")
       .then(({ data }) => {
         if (cancelled || !data) return;
         setContent(

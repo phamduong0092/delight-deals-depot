@@ -19,6 +19,12 @@ export const BANK_INFO = {
 export const ZALO_PHONE = "0909357553";
 export const ZALO_LINK = `https://zalo.me/${ZALO_PHONE}`;
 
+// Kênh cộng đồng — dùng cho icon mạng xã hội ở footer (khác với ZALO_LINK ở trên,
+// vốn là chat hỗ trợ 1-1 riêng, dùng cho nút "Nhắn Zalo ngay").
+export const ZALO_GROUP_LINK = "https://zalo.me/g/eticqx111";
+export const FACEBOOK_PAGE_LINK = "https://www.facebook.com/9RCongNgheAI/";
+export const YOUTUBE_CHANNEL_LINK = "https://www.youtube.com/channel/UCrU-56JQyWqqART9GSofnmQ";
+
 export function buildVietQrUrl(amountVnd: number, addInfo: string) {
   const params = new URLSearchParams({
     amount: String(amountVnd),

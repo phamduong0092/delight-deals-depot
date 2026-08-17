@@ -25,15 +25,17 @@ function FloatingBadge({ banner, index }: { banner: SiteBannerRow; index: number
     setDismissed(window.sessionStorage.getItem(dismissKey) === "1");
   }, [dismissKey]);
 
-  // Vị trí khởi đầu: góc dưới phải màn hình, các ô sau xếp chồng lệch lên trên ô trước.
+  // Vị trí khởi đầu: luân phiên góc phải/trái màn hình (ô chẵn phải, ô lẻ trái), xếp chồng
+  // lệch lên trên trong từng bên — luôn kẹp trong màn hình, không sinh ra ở chỗ khuất phải kéo mới thấy.
   useEffect(() => {
     if (typeof window === "undefined") return;
     const w = cardRef.current?.offsetWidth ?? FALLBACK_SIZE.width;
     const h = cardRef.current?.offsetHeight ?? FALLBACK_SIZE.height;
-    setPos({
-      x: window.innerWidth - w - 20,
-      y: window.innerHeight - h - 20 - index * (h + STACK_OFFSET),
-    });
+    const onRight = index % 2 === 0;
+    const slot = Math.floor(index / 2);
+    const x = onRight ? window.innerWidth - w - 20 : 20;
+    const rawY = window.innerHeight - h - 20 - slot * (h + STACK_OFFSET);
+    setPos({ x, y: Math.max(rawY, EDGE_MARGIN) });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [banner.id]);
 

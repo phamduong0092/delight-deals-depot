@@ -1,38 +1,41 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { supabase } from "@/lib/supabase";
 
-type SiteBannerRow = {
+export type SiteBannerRow = {
+  id: string;
   message: string | null;
   link_url: string | null;
   link_label: string | null;
   active: boolean | null;
+  size: "sm" | "md" | "lg" | null;
 };
 
-const SiteBannerContext = createContext<SiteBannerRow | null>(null);
+const SiteBannerContext = createContext<SiteBannerRow[]>([]);
 
 export function SiteBannerProvider({ children }: { children: ReactNode }) {
-  const [banner, setBanner] = useState<SiteBannerRow | null>(null);
+  const [banners, setBanners] = useState<SiteBannerRow[]>([]);
 
   useEffect(() => {
     let cancelled = false;
     void supabase
       .from("site_banner")
-      .select("message, link_url, link_label, active")
-      .eq("id", "main")
-      .maybeSingle()
+      .select("id, message, link_url, link_label, active, size")
       .then(({ data }) => {
-        if (cancelled) return;
-        setBanner((data as SiteBannerRow | null) ?? null);
+        if (cancelled || !data) return;
+        setBanners(data as SiteBannerRow[]);
       });
     return () => {
       cancelled = true;
     };
   }, []);
 
-  return <SiteBannerContext.Provider value={banner}>{children}</SiteBannerContext.Provider>;
+  return <SiteBannerContext.Provider value={banners}>{children}</SiteBannerContext.Provider>;
 }
 
-/** Nội dung banner khuyến mãi do chủ shop tự bật/tắt qua Supabase — chỉ tải 1 lần khi mở app. */
-export function useSiteBanner() {
+/**
+ * Toàn bộ ô nổi (banner khuyến mãi, link ngoài...) do chủ shop tự thêm/bật/tắt qua Supabase —
+ * mỗi dòng trong bảng site_banner là 1 ô riêng, chỉ tải 1 lần khi mở app.
+ */
+export function useSiteBanners() {
   return useContext(SiteBannerContext);
 }

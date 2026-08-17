@@ -13,6 +13,8 @@ import {
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import { formatVnd, usdToVnd } from "@/lib/payment";
+import { getProduct } from "@/lib/products";
+import { useProductContent, mergeProductContent } from "@/lib/productContent";
 
 export const Route = createFileRoute("/tai-skill")({
   head: () => ({
@@ -37,6 +39,48 @@ function formatDate(iso: string) {
     hour: "2-digit",
     minute: "2-digit",
   });
+}
+
+/** Tên mới nhất của Skill (đã áp dụng chỉnh sửa trên Supabase), thay vì tên lưu lúc mua. */
+function useLiveTitle(productId: string, fallbackTitle: string) {
+  const content = useProductContent();
+  const rawProduct = getProduct(productId);
+  if (!rawProduct) return fallbackTitle;
+  return mergeProductContent(rawProduct, content[productId]).title;
+}
+
+function PurchasedItemRow({
+  item,
+  fileUrl,
+}: {
+  item: { id: string; title: string; price: number };
+  fileUrl: string | undefined;
+}) {
+  const title = useLiveTitle(item.id, item.title);
+
+  return (
+    <li className="flex items-center justify-between gap-4 rounded-xl bg-background/60 px-4 py-3">
+      <div className="min-w-0">
+        <p className="truncate text-sm font-medium">{title}</p>
+        <p className="text-xs text-muted-foreground">${item.price}</p>
+      </div>
+      {fileUrl ? (
+        <a
+          href={fileUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex shrink-0 items-center gap-1.5 rounded-full bg-brand-gradient px-4 py-2 text-xs font-semibold text-primary-foreground shadow-brand transition hover:scale-[1.02]"
+        >
+          <Download className="h-3.5 w-3.5" />
+          Tải xuống
+        </a>
+      ) : (
+        <span className="shrink-0 rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground">
+          Đang cập nhật nội dung
+        </span>
+      )}
+    </li>
+  );
 }
 
 function TaiSkillPage() {
@@ -222,35 +266,9 @@ function TaiSkillPage() {
                 </div>
 
                 <ul className="mt-4 space-y-2.5 border-t border-border pt-4">
-                  {order.items.map((item) => {
-                    const fileUrl = fileLinks[item.id];
-                    return (
-                      <li
-                        key={item.id}
-                        className="flex items-center justify-between gap-4 rounded-xl bg-background/60 px-4 py-3"
-                      >
-                        <div className="min-w-0">
-                          <p className="truncate text-sm font-medium">{item.title}</p>
-                          <p className="text-xs text-muted-foreground">${item.price}</p>
-                        </div>
-                        {fileUrl ? (
-                          <a
-                            href={fileUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex shrink-0 items-center gap-1.5 rounded-full bg-brand-gradient px-4 py-2 text-xs font-semibold text-primary-foreground shadow-brand transition hover:scale-[1.02]"
-                          >
-                            <Download className="h-3.5 w-3.5" />
-                            Tải xuống
-                          </a>
-                        ) : (
-                          <span className="shrink-0 rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground">
-                            Đang cập nhật nội dung
-                          </span>
-                        )}
-                      </li>
-                    );
-                  })}
+                  {order.items.map((item) => (
+                    <PurchasedItemRow key={item.id} item={item} fileUrl={fileLinks[item.id]} />
+                  ))}
                 </ul>
               </div>
             ))}

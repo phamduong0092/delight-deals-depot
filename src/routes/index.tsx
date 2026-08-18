@@ -1,5 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Facebook, MessageCircleMore, ShoppingCart, Sparkles, Youtube } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Facebook,
+  MessageCircleMore,
+  ShoppingCart,
+  Sparkles,
+  Youtube,
+} from "lucide-react";
 import sanh1Graduation from "@/assets/sanh-1/graduation.webp";
 import { categories, type Category, type Product } from "@/lib/products";
 import { useCart } from "@/lib/cart";
@@ -205,6 +214,38 @@ function Landing() {
 }
 
 function CategoryRow({ anchorId, category }: { anchorId: string; category: Category }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+  // >6 sản phẩm: chuyển sang hàng cuộn ngang có nút mũi tên thay vì lưới cố định 6 cột.
+  const overflowRow = category.products.length > 6;
+
+  useEffect(() => {
+    if (!overflowRow) return;
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const updateArrows = () => {
+      setCanScrollLeft(el.scrollLeft > 4);
+      setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+    };
+
+    updateArrows();
+    el.addEventListener("scroll", updateArrows, { passive: true });
+    window.addEventListener("resize", updateArrows);
+    return () => {
+      el.removeEventListener("scroll", updateArrows);
+      window.removeEventListener("resize", updateArrows);
+    };
+  }, [overflowRow, category.products.length]);
+
+  const scrollByPage = (direction: 1 | -1) => {
+    scrollRef.current?.scrollBy({
+      left: direction * scrollRef.current.clientWidth * 0.85,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <section id={anchorId}>
       <Reveal>
@@ -225,12 +266,46 @@ function CategoryRow({ anchorId, category }: { anchorId: string; category: Categ
         </div>
       </Reveal>
 
-      <div className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 md:grid-cols-3 lg:grid-cols-6">
-        {category.products.map((p, i) => (
-          <Reveal key={p.id} delay={Math.min(i, 5) * 60} className="w-[220px] shrink-0 sm:w-auto">
-            <ProductCard product={p} />
-          </Reveal>
-        ))}
+      <div className="relative">
+        {overflowRow && canScrollLeft && (
+          <button
+            type="button"
+            onClick={() => scrollByPage(-1)}
+            aria-label="Xem sản phẩm trước"
+            className="absolute left-0 top-1/2 z-10 hidden -translate-x-3 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background/95 p-2 shadow-card transition hover:bg-accent sm:flex"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+        )}
+        {overflowRow && canScrollRight && (
+          <button
+            type="button"
+            onClick={() => scrollByPage(1)}
+            aria-label="Xem thêm sản phẩm"
+            className="absolute right-0 top-1/2 z-10 hidden translate-x-3 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background/95 p-2 shadow-card transition hover:bg-accent sm:flex"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        )}
+
+        <div
+          ref={scrollRef}
+          className={`-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 sm:mx-0 sm:px-0 ${
+            overflowRow
+              ? ""
+              : "sm:grid sm:grid-cols-2 sm:overflow-visible md:grid-cols-3 lg:grid-cols-6"
+          }`}
+        >
+          {category.products.map((p, i) => (
+            <Reveal
+              key={p.id}
+              delay={Math.min(i, 5) * 60}
+              className={`w-[220px] shrink-0 snap-start ${overflowRow ? "" : "sm:w-auto"}`}
+            >
+              <ProductCard product={p} />
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );

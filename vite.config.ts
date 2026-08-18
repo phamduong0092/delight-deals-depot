@@ -13,6 +13,8 @@ export default defineConfig({
     server: { entry: "server" },
   },
   nitro: {
-    preset: "netlify",
+    // Chọn nền tảng deploy qua biến môi trường NITRO_PRESET (đặt trên Netlify/Vercel),
+    // không cần sửa code khi chuyển qua lại giữa 2 nền tảng. Mặc định "netlify" nếu chưa đặt.
+    preset: (process.env.NITRO_PRESET as "netlify" | "vercel" | undefined) ?? "netlify",
   },
 });

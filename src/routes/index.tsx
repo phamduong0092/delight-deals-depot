@@ -241,13 +241,14 @@ function ProductCard({ product: rawProduct }: { product: Product }) {
   const cart = useCart();
   const inCart = cart.has(product.id);
   const available = product.available === true;
+  const contactOnly = product.contactOnly === true;
 
   return (
     <article className="group w-full overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:shadow-brand">
       <Link to="/skill/$id" params={{ id: product.id }} className="block">
         <div className="relative aspect-[3/4] overflow-hidden bg-muted">
           <ProductArt product={product} className="transition duration-700 group-hover:scale-105" />
-          {!available && (
+          {!available && !contactOnly && (
             <>
               <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/20" />
               <div className="absolute inset-0 flex items-center justify-center">
@@ -270,7 +271,7 @@ function ProductCard({ product: rawProduct }: { product: Product }) {
             {product.tag}
           </span>
           <span className="absolute right-2 top-2 rounded-full bg-brand-gradient px-2 py-0.5 text-[10px] font-bold text-primary-foreground shadow-brand">
-            ${product.price}
+            {contactOnly ? "Liên hệ" : `$${product.price}`}
           </span>
         </div>
       </Link>
@@ -280,17 +281,28 @@ function ProductCard({ product: rawProduct }: { product: Product }) {
             {product.title}
           </h3>
         </Link>
-        <button
-          onClick={() => cart.toggle(product.id)}
-          disabled={!available}
-          className="w-full rounded-full bg-foreground px-3 py-2 text-xs font-semibold text-background transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          {!available
-            ? "Sắp ra mắt"
-            : inCart
-              ? "✓ Đã thêm vào giỏ"
-              : `Thêm vào giỏ · $${product.price}`}
-        </button>
+        {contactOnly ? (
+          <a
+            href={ZALO_GROUP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full rounded-full bg-foreground px-3 py-2 text-center text-xs font-semibold text-background transition hover:opacity-90"
+          >
+            Liên hệ tư vấn →
+          </a>
+        ) : (
+          <button
+            onClick={() => cart.toggle(product.id)}
+            disabled={!available}
+            className="w-full rounded-full bg-foreground px-3 py-2 text-xs font-semibold text-background transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            {!available
+              ? "Sắp ra mắt"
+              : inCart
+                ? "✓ Đã thêm vào giỏ"
+                : `Thêm vào giỏ · $${product.price}`}
+          </button>
+        )}
       </div>
     </article>
   );

@@ -4,6 +4,7 @@ import { getProduct, getCategory, categories } from "@/lib/products";
 import { useCart } from "@/lib/cart";
 import { useProductContent, mergeProductContent } from "@/lib/productContent";
 import { extractYoutubeId } from "@/lib/youtube";
+import { ZALO_GROUP_LINK } from "@/lib/payment";
 import { ProductArt } from "@/components/ProductArt";
 import { Reveal } from "@/components/Reveal";
 import { AuthStatus } from "@/components/AuthStatus";
@@ -50,6 +51,7 @@ function SkillDetail() {
   const category = getCategory(product.categoryId);
   const inCart = cart.has(product.id);
   const available = product.available === true;
+  const contactOnly = product.contactOnly === true;
   const reviewVideoUrl = content[rawProduct.id]?.video_url;
   const reviewVideoId = reviewVideoUrl ? extractYoutubeId(reviewVideoUrl) : null;
 
@@ -113,7 +115,7 @@ function SkillDetail() {
           <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-card">
             <div className="relative aspect-square">
               <ProductArt product={product} iconClassName="h-20 w-20" />
-              {!available && (
+              {!available && !contactOnly && (
                 <>
                   <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/20" />
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -139,32 +141,49 @@ function SkillDetail() {
             <p className="mt-3 text-muted-foreground">{product.shortDesc}</p>
 
             <div className="mt-6 flex items-baseline gap-2">
-              <span className="text-4xl font-display text-gradient">${product.price}</span>
-              <span className="text-sm text-muted-foreground">/ Skill Pack · trọn đời</span>
+              <span className="text-4xl font-display text-gradient">
+                {contactOnly ? "Liên hệ" : `$${product.price}`}
+              </span>
+              <span className="text-sm text-muted-foreground">
+                {contactOnly ? "báo giá theo yêu cầu" : "/ Skill Pack · trọn đời"}
+              </span>
             </div>
 
-            {!available && (
+            {!available && !contactOnly && (
               <p className="mt-6 text-sm text-muted-foreground">
                 Skill này đang được hoàn thiện nội dung, sẽ mở bán sớm.
               </p>
             )}
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <button
-                onClick={buyNow}
-                disabled={!available}
-                className="shimmer flex-1 rounded-full bg-brand-gradient px-6 py-3 text-sm font-semibold text-primary-foreground shadow-brand transition hover:scale-[1.02] disabled:pointer-events-none disabled:opacity-40 disabled:shadow-none disabled:after:hidden"
-              >
-                {available ? `Mua ngay · $${product.price}` : "Sắp ra mắt"}
-              </button>
-              <button
-                onClick={() => cart.toggle(product.id)}
-                disabled={!available}
-                className="flex-1 rounded-full border border-border px-6 py-3 text-sm font-semibold transition hover:bg-accent disabled:pointer-events-none disabled:opacity-40"
-              >
-                {inCart ? "✓ Đã có trong giỏ" : "Thêm vào giỏ"}
-              </button>
-            </div>
+            {contactOnly ? (
+              <div className="mt-6">
+                <a
+                  href={ZALO_GROUP_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shimmer flex w-full items-center justify-center rounded-full bg-brand-gradient px-6 py-3 text-sm font-semibold text-primary-foreground shadow-brand transition hover:scale-[1.02]"
+                >
+                  Liên hệ tư vấn qua Zalo →
+                </a>
+              </div>
+            ) : (
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <button
+                  onClick={buyNow}
+                  disabled={!available}
+                  className="shimmer flex-1 rounded-full bg-brand-gradient px-6 py-3 text-sm font-semibold text-primary-foreground shadow-brand transition hover:scale-[1.02] disabled:pointer-events-none disabled:opacity-40 disabled:shadow-none disabled:after:hidden"
+                >
+                  {available ? `Mua ngay · $${product.price}` : "Sắp ra mắt"}
+                </button>
+                <button
+                  onClick={() => cart.toggle(product.id)}
+                  disabled={!available}
+                  className="flex-1 rounded-full border border-border px-6 py-3 text-sm font-semibold transition hover:bg-accent disabled:pointer-events-none disabled:opacity-40"
+                >
+                  {inCart ? "✓ Đã có trong giỏ" : "Thêm vào giỏ"}
+                </button>
+              </div>
+            )}
 
             <div className="mt-6 flex flex-wrap gap-4 text-xs text-muted-foreground">
               <span className="flex items-center gap-1.5">
@@ -230,6 +249,7 @@ function SkillDetail() {
               {related.map((rawRelated) => {
                 const p = mergeProductContent(rawRelated, content[rawRelated.id]);
                 const relatedAvailable = p.available === true;
+                const relatedContactOnly = p.contactOnly === true;
                 return (
                   <Link
                     key={p.id}
@@ -242,7 +262,7 @@ function SkillDetail() {
                         product={p}
                         className="transition duration-700 group-hover:scale-105"
                       />
-                      {!relatedAvailable && (
+                      {!relatedAvailable && !relatedContactOnly && (
                         <>
                           <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/20" />
                           <div className="absolute inset-0 flex items-center justify-center">
@@ -253,7 +273,7 @@ function SkillDetail() {
                         </>
                       )}
                       <span className="absolute right-2 top-2 rounded-full bg-brand-gradient px-2 py-0.5 text-[10px] font-bold text-primary-foreground shadow-brand">
-                        ${p.price}
+                        {relatedContactOnly ? "Liên hệ" : `$${p.price}`}
                       </span>
                     </div>
                     <div className="p-3">

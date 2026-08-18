@@ -313,7 +313,7 @@ const seed: CategorySeed[] = [
         id: "S0201",
         title: "Skill · Selfie Chuyển Động",
         tag: "Video Pack",
-        price: 2,
+        price: 3,
         icon: Dumbbell,
         image: kolGym.url,
         shortDesc: "Kỹ năng quay video selfie chuyển động tự nhiên, năng lượng cao.",

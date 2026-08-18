@@ -5,9 +5,11 @@ import { getProduct } from "@/lib/products";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
+import { useProductContent, mergeProductContent } from "@/lib/productContent";
 import { ProductArt } from "@/components/ProductArt";
 import { generateOrderId, saveOrder, saveOrderToSupabase, type Order } from "@/lib/orders";
 import { loadRememberedInfo, saveRememberedInfo } from "@/lib/rememberedInfo";
+import { getStoredAffiliateCode } from "@/lib/affiliateRef";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -47,9 +49,11 @@ function Checkout() {
     setNote((prev) => prev || (user.user_metadata?.note as string | undefined) || "");
   }, [user]);
 
+  const content = useProductContent();
   const items = cart.itemIds
     .map((id) => getProduct(id))
-    .filter((p): p is NonNullable<typeof p> => Boolean(p));
+    .filter((p): p is NonNullable<typeof p> => Boolean(p))
+    .map((p) => mergeProductContent(p, content[p.id]));
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -86,7 +90,7 @@ function Checkout() {
       phone: order.customer.phone,
       email: order.customer.email,
     });
-    void saveOrderToSupabase(order, user?.id);
+    void saveOrderToSupabase(order, user?.id, getStoredAffiliateCode() || undefined);
     if (user) {
       void supabase
         .from("profiles")

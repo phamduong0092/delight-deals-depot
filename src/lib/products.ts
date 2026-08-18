@@ -36,7 +36,6 @@ import {
   Wand2,
 } from "lucide-react";
 import kolGym from "@/assets/kol-gym.asset.json";
-import kolGymVideo from "@/assets/kol-gym-video.mp4.asset.json";
 import sanh1Graduation from "@/assets/sanh-1/graduation.webp";
 import sanh1Launch from "@/assets/sanh-1/launch.webp";
 import sanh1Honor from "@/assets/sanh-1/honor.webp";
@@ -314,8 +313,6 @@ const seed: CategorySeed[] = [
         price: 2,
         icon: Dumbbell,
         image: kolGym.url,
-        video: kolGymVideo.url,
-        bestseller: true,
         shortDesc: "Kỹ năng quay video selfie chuyển động tự nhiên, năng lượng cao.",
         longDesc:
           "Video Pack hướng dẫn quay các đoạn selfie chuyển động tại phòng gym hoặc không gian năng động, giữ khung hình ổn định và truyền tải năng lượng tích cực — rất hiệu quả cho nội dung lifestyle bán hàng.",

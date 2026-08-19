@@ -54,6 +54,8 @@ function SkillDetail() {
   const contactOnly = product.contactOnly === true;
   const reviewVideoUrl = content[rawProduct.id]?.video_url;
   const reviewVideoId = reviewVideoUrl ? extractYoutubeId(reviewVideoUrl) : null;
+  // Không phải link YouTube (VD: landing page, website demo) — mở link ngoài thay vì nhúng khung xem.
+  const reviewLinkUrl = reviewVideoUrl && !reviewVideoId ? reviewVideoUrl : null;
 
   const related = category ? category.products.filter((p) => p.id !== product.id).slice(0, 6) : [];
 
@@ -218,25 +220,41 @@ function SkillDetail() {
           </section>
         </Reveal>
 
-        {/* Video demo thực tế — chỉ hiện khi Skill có gắn link YouTube trong Supabase */}
-        {reviewVideoId && (
+        {/* Video/link demo thực tế — chỉ hiện khi Skill có gắn link trong Supabase */}
+        {(reviewVideoId || reviewLinkUrl) && (
           <Reveal>
             <section className="mt-14 max-w-3xl">
               <h2 className="flex items-center gap-2 text-2xl">
                 <PlayCircle className="h-5 w-5 text-primary" />
                 Xem demo thực tế
               </h2>
-              <div className="mt-4 overflow-hidden rounded-3xl border border-border bg-card shadow-card">
-                <div className="aspect-video w-full">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${reviewVideoId}`}
-                    title={`Demo thực tế — ${product.title}`}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="h-full w-full"
-                  />
+              {reviewVideoId ? (
+                <div className="mt-4 overflow-hidden rounded-3xl border border-border bg-card shadow-card">
+                  <div className="aspect-video w-full">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${reviewVideoId}`}
+                      title={`Demo thực tế — ${product.title}`}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="h-full w-full"
+                    />
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <a
+                  href={reviewLinkUrl ?? undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 flex items-center justify-between gap-3 rounded-3xl border border-border bg-card p-6 shadow-card transition hover:border-primary hover:bg-accent"
+                >
+                  <span className="text-sm font-medium">
+                    Mở landing page / website demo ở tab mới
+                  </span>
+                  <span className="shrink-0 rounded-full bg-brand-gradient px-4 py-2 text-xs font-semibold text-primary-foreground">
+                    Xem ngay →
+                  </span>
+                </a>
+              )}
             </section>
           </Reveal>
         )}

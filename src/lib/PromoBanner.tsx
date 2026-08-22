@@ -7,6 +7,26 @@ const FALLBACK_SIZE = { width: 320, height: 180 };
 const EDGE_MARGIN = 12;
 const STACK_OFFSET = 24;
 
+// Điện thoại (< md) dùng khung nhỏ gọn hơn hẳn — tránh chiếm gần hết màn hình như trước.
+// Từ md (≥768px, máy tính/tablet ngang) trở lên giữ nguyên y hệt kích thước cũ.
+const SIZE_STYLES = {
+  sm: {
+    width: "w-[min(58vw,10.5rem)] sm:w-[min(75vw,14rem)] md:w-[min(88vw,18rem)]",
+    padding: "p-2.5 sm:p-3 md:p-4",
+    title: "text-sm sm:text-lg md:text-xl",
+  },
+  md: {
+    width: "w-[min(62vw,13rem)] sm:w-[min(80vw,20rem)] md:w-[min(92vw,26rem)]",
+    padding: "p-3 sm:p-4 md:p-6",
+    title: "text-base sm:text-xl md:text-2xl",
+  },
+  lg: {
+    width: "w-[min(66vw,15rem)] sm:w-[min(85vw,24rem)] md:w-[min(95vw,34rem)]",
+    padding: "p-3 sm:p-5 md:p-8",
+    title: "text-lg sm:text-2xl md:text-3xl",
+  },
+} as const;
+
 function FloatingBadge({ banner, index }: { banner: SiteBannerRow; index: number }) {
   const [dismissed, setDismissed] = useState(false);
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
@@ -19,15 +39,17 @@ function FloatingBadge({ banner, index }: { banner: SiteBannerRow; index: number
     setDismissed(window.sessionStorage.getItem(dismissKey) === "1");
   }, [dismissKey]);
 
-  // Vị trí khởi đầu: góc dưới phải màn hình, các ô sau xếp chồng lệch lên trên ô trước.
+  // Vị trí khởi đầu: luân phiên góc phải/trái màn hình (ô chẵn phải, ô lẻ trái), xếp chồng
+  // lệch lên trên trong từng bên — luôn kẹp trong màn hình, không sinh ra ở chỗ khuất phải kéo mới thấy.
   useEffect(() => {
     if (typeof window === "undefined") return;
     const w = cardRef.current?.offsetWidth ?? FALLBACK_SIZE.width;
     const h = cardRef.current?.offsetHeight ?? FALLBACK_SIZE.height;
-    setPos({
-      x: window.innerWidth - w - 20,
-      y: window.innerHeight - h - 20 - index * (h + STACK_OFFSET),
-    });
+    const onRight = index % 2 === 0;
+    const slot = Math.floor(index / 2);
+    const x = onRight ? window.innerWidth - w - 20 : 20;
+    const rawY = window.innerHeight - h - 20 - slot * (h + STACK_OFFSET);
+    setPos({ x, y: Math.max(rawY, EDGE_MARGIN) });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [banner.id]);
 
@@ -58,6 +80,8 @@ function FloatingBadge({ banner, index }: { banner: SiteBannerRow; index: number
 
   if (!banner.message || dismissed || !pos) return null;
 
+  const sizeStyle = SIZE_STYLES[banner.size ?? "md"];
+
   return (
     <div
       ref={cardRef}
@@ -70,7 +94,7 @@ function FloatingBadge({ banner, index }: { banner: SiteBannerRow; index: number
         background:
           "linear-gradient(135deg, oklch(0.58 0.20 25), oklch(0.72 0.19 45) 55%, oklch(0.84 0.16 75))",
       }}
-      className="shimmer glow-pulse fixed z-50 w-[min(92vw,26rem)] cursor-grab touch-none select-none overflow-hidden rounded-3xl border border-white/25 p-6 shadow-brand active:cursor-grabbing"
+      className={`shimmer glow-pulse fixed z-50 ${sizeStyle.width} cursor-grab touch-none select-none overflow-hidden rounded-3xl border border-white/25 ${sizeStyle.padding} shadow-brand active:cursor-grabbing`}
     >
       <Sparkles className="sparkle-twinkle pointer-events-none absolute right-5 top-14 h-4 w-4 text-white/70" />
       <Sparkles
@@ -84,7 +108,9 @@ function FloatingBadge({ banner, index }: { banner: SiteBannerRow; index: number
         <Flame className="h-3.5 w-3.5" />
         Hot
       </span>
-      <p className="whitespace-pre-line font-display text-xl font-semibold leading-snug text-white drop-shadow-[0_2px_10px_oklch(0.3_0.15_30/0.6)] sm:text-2xl">
+      <p
+        className={`line-clamp-5 whitespace-pre-line font-display font-semibold leading-snug text-white drop-shadow-[0_2px_10px_oklch(0.3_0.15_30/0.6)] md:line-clamp-none ${sizeStyle.title}`}
+      >
         {banner.message}
       </p>
       {banner.link_url && (

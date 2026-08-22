@@ -1,8 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { Building2, ShoppingBag, Trash2 } from "lucide-react";
-import { getProduct } from "@/lib/products";
 import { useCart } from "@/lib/cart";
+import { useAllCatalogProducts } from "@/lib/catalog";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import { useProductContent, mergeProductContent } from "@/lib/productContent";
@@ -33,25 +33,30 @@ function Checkout() {
   const [error, setError] = useState<string | null>(null);
 
   // Chưa đăng nhập: tự điền lại thông tin đã nhập ở lần trước trên chính thiết bị này.
+  // Chỉ áp dụng khi KHÔNG đăng nhập — tránh tình trạng máy/trình duyệt dùng chung nhiều tài
+  // khoản, tên người đăng nhập trước bị nhớ nhầm sang cho người đăng nhập sau.
   useEffect(() => {
+    if (user) return;
     const remembered = loadRememberedInfo();
     setName((prev) => prev || remembered.name || "");
     setPhone((prev) => prev || remembered.phone || "");
     setEmail((prev) => prev || remembered.email || "");
-  }, []);
+  }, [user]);
 
-  // Đã đăng nhập thì ưu tiên thông tin lưu lúc đăng ký, đỡ phải gõ lại mỗi lần mua.
+  // Đã đăng nhập: luôn dùng đúng thông tin của tài khoản đang đăng nhập, ghi đè lên bất kỳ
+  // tên nào đã được nhớ sẵn trên thiết bị (kể cả của một tài khoản khác từng đăng nhập trước).
   useEffect(() => {
     if (!user) return;
-    setName((prev) => prev || (user.user_metadata?.full_name as string | undefined) || "");
-    setPhone((prev) => prev || (user.user_metadata?.phone as string | undefined) || "");
-    setEmail((prev) => prev || (user.user_metadata?.email as string | undefined) || "");
-    setNote((prev) => prev || (user.user_metadata?.note as string | undefined) || "");
+    setName((user.user_metadata?.full_name as string | undefined) || "");
+    setPhone((user.user_metadata?.phone as string | undefined) || "");
+    setEmail((user.user_metadata?.email as string | undefined) || "");
+    setNote((user.user_metadata?.note as string | undefined) || "");
   }, [user]);
 
   const content = useProductContent();
+  const catalogProducts = useAllCatalogProducts();
   const items = cart.itemIds
-    .map((id) => getProduct(id))
+    .map((id) => catalogProducts.find((p) => p.id === id))
     .filter((p): p is NonNullable<typeof p> => Boolean(p))
     .map((p) => mergeProductContent(p, content[p.id]));
 

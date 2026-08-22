@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Product } from "@/lib/products";
-import { iconGradients } from "@/lib/products";
+import { getCategoryGradient } from "@/lib/products";
 import { useProductImages } from "@/lib/productImages";
 import { cn } from "@/lib/utils";
 
@@ -14,7 +14,7 @@ function GradientFallback({
   iconClassName?: string;
 }) {
   const Icon = product.icon;
-  const gradient = iconGradients[product.categoryId] ?? iconGradients.poster;
+  const gradient = getCategoryGradient(product.categoryId);
 
   return (
     <div

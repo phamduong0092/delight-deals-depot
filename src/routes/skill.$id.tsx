@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Check, ChevronRight, PlayCircle, ShieldCheck, Zap } from "lucide-react";
-import { getProduct, getCategory, categories } from "@/lib/products";
+import { getProduct } from "@/lib/products";
 import { useCart } from "@/lib/cart";
+import { useCatalog, useCatalogProduct } from "@/lib/catalog";
 import { useProductContent, mergeProductContent } from "@/lib/productContent";
 import { extractYoutubeId } from "@/lib/youtube";
 import { ZALO_GROUP_LINK } from "@/lib/payment";
@@ -40,15 +41,16 @@ function NotFoundSkill() {
 
 function SkillDetail() {
   const { id } = Route.useParams();
-  const rawProduct = getProduct(id);
   const cart = useCart();
   const navigate = useNavigate();
   const content = useProductContent();
+  const allCategories = useCatalog();
+  const rawProduct = useCatalogProduct(id);
 
   if (!rawProduct) return <NotFoundSkill />;
 
   const product = mergeProductContent(rawProduct, content[rawProduct.id]);
-  const category = getCategory(product.categoryId);
+  const category = allCategories.find((c) => c.id === product.categoryId);
   const inCart = cart.has(product.id);
   const available = product.available === true;
   const contactOnly = product.contactOnly === true;
@@ -102,7 +104,7 @@ function SkillDetail() {
             <>
               <ChevronRight className="h-3 w-3" />
               <a
-                href={`/#gian-${categories.findIndex((c) => c.id === category.id) + 1}`}
+                href={`/#gian-${allCategories.findIndex((c) => c.id === category.id) + 1}`}
                 className="hover:text-foreground"
               >
                 {category.title}

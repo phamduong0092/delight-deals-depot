@@ -10,7 +10,8 @@ import {
   Youtube,
 } from "lucide-react";
 import sanh1Graduation from "@/assets/sanh-1/graduation.webp";
-import { categories, type Category, type Product } from "@/lib/products";
+import type { Category, Product } from "@/lib/products";
+import { useCatalog } from "@/lib/catalog";
 import { useCart } from "@/lib/cart";
 import { FACEBOOK_PAGE_LINK, YOUTUBE_CHANNEL_LINK, ZALO_GROUP_LINK } from "@/lib/payment";
 import { useMergedProduct } from "@/lib/productContent";
@@ -44,6 +45,7 @@ export const Route = createFileRoute("/")({
 
 function Landing() {
   const cart = useCart();
+  const categories = useCatalog();
 
   return (
     <main className="min-h-screen bg-soft-gradient">

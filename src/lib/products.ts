@@ -752,3 +752,28 @@ export const iconGradients: Record<string, string> = {
   landing: "from-[oklch(0.62_0.10_170)] to-[oklch(0.75_0.10_155)]",
   course: "from-[oklch(0.58_0.11_152)] to-[oklch(0.75_0.11_150)]",
 };
+
+// Dải màu dự phòng cho sảnh mới thêm qua Supabase (không có sẵn trong iconGradients ở trên).
+const FALLBACK_GRADIENTS: string[] = [
+  "from-[oklch(0.66_0.16_35)] to-[oklch(0.80_0.13_60)]",
+  "from-[oklch(0.60_0.14_230)] to-[oklch(0.76_0.11_215)]",
+  "from-[oklch(0.62_0.17_320)] to-[oklch(0.78_0.13_335)]",
+  "from-[oklch(0.58_0.14_140)] to-[oklch(0.74_0.12_150)]",
+];
+
+function hashString(value: string): number {
+  let hash = 0;
+  for (let i = 0; i < value.length; i++) {
+    hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
+  }
+  return hash;
+}
+
+/** Màu gradient của 1 sảnh — 6 sảnh có sẵn dùng đúng màu đã định ở trên; sảnh mới thêm qua
+ * Supabase tự chọn 1 màu ổn định trong bảng dự phòng theo tên sảnh, không cần khai báo riêng. */
+export function getCategoryGradient(categoryId: string): string {
+  return (
+    iconGradients[categoryId] ??
+    FALLBACK_GRADIENTS[hashString(categoryId) % FALLBACK_GRADIENTS.length]
+  );
+}

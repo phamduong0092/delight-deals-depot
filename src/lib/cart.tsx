@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { allProducts } from "@/lib/products";
+import { useAllCatalogProducts } from "@/lib/catalog";
 
 const STORAGE_KEY = "kol-skill-cart";
 
@@ -29,6 +29,7 @@ function readStoredCart(): string[] {
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
+  const catalogProducts = useAllCatalogProducts();
   const [itemIds, setItemIds] = useState<string[]>([]);
   const [hydrated, setHydrated] = useState(false);
 
@@ -43,9 +44,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [itemIds, hydrated]);
 
   const value = useMemo<CartContextValue>(() => {
-    const validIds = itemIds.filter((id) => allProducts.some((p) => p.id === id));
+    const validIds = itemIds.filter((id) => catalogProducts.some((p) => p.id === id));
     const total = validIds.reduce((sum, id) => {
-      const product = allProducts.find((p) => p.id === id);
+      const product = catalogProducts.find((p) => p.id === id);
       return sum + (product?.price ?? 0);
     }, 0);
 
@@ -60,7 +61,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       count: validIds.length,
       total,
     };
-  }, [itemIds]);
+  }, [itemIds, catalogProducts]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

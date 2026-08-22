@@ -13,7 +13,7 @@ import {
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import { formatVnd, usdToVnd } from "@/lib/payment";
-import { getProduct } from "@/lib/products";
+import { useCatalogProduct } from "@/lib/catalog";
 import { useProductContent, mergeProductContent } from "@/lib/productContent";
 
 export const Route = createFileRoute("/tai-skill")({
@@ -44,7 +44,7 @@ function formatDate(iso: string) {
 /** Tên mới nhất của Skill (đã áp dụng chỉnh sửa trên Supabase), thay vì tên lưu lúc mua. */
 function useLiveTitle(productId: string, fallbackTitle: string) {
   const content = useProductContent();
-  const rawProduct = getProduct(productId);
+  const rawProduct = useCatalogProduct(productId);
   if (!rawProduct) return fallbackTitle;
   return mergeProductContent(rawProduct, content[productId]).title;
 }

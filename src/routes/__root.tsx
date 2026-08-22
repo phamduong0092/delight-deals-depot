@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CartProvider } from "../lib/cart";
+import { CatalogProvider } from "../lib/catalog";
 import { AuthProvider } from "../lib/auth";
 import { ProductImagesProvider } from "../lib/productImages";
 import { ProductContentProvider } from "../lib/productContent";
@@ -157,19 +158,21 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <CartProvider>
-          <ProductImagesProvider>
-            <ProductContentProvider>
-              <SiteBannerProvider>
-                <HomeVideoProvider>
-                  <PromoBanner />
-                  {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-                  <Outlet />
-                </HomeVideoProvider>
-              </SiteBannerProvider>
-            </ProductContentProvider>
-          </ProductImagesProvider>
-        </CartProvider>
+        <CatalogProvider>
+          <CartProvider>
+            <ProductImagesProvider>
+              <ProductContentProvider>
+                <SiteBannerProvider>
+                  <HomeVideoProvider>
+                    <PromoBanner />
+                    {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+                    <Outlet />
+                  </HomeVideoProvider>
+                </SiteBannerProvider>
+              </ProductContentProvider>
+            </ProductImagesProvider>
+          </CartProvider>
+        </CatalogProvider>
       </AuthProvider>
     </QueryClientProvider>
   );
